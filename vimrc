@@ -15,6 +15,9 @@ set showmatch
 set laststatus=2
 set guioptions+=a
 
+set rtp+=$GOROOT/misc/vim
+exe "set rtp+=".globpath($GOPATH, "src/github.com/nsf/gocode/vim")
+
 " Read NewFile as specified filetype
 autocmd BufNewFile,BufRead *.j2 set filetype=html
 autocmd BufNewFile,BufRead *.md set filetype=html
