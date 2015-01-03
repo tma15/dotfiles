@@ -3,6 +3,9 @@ set fenc=utf-8
 set encoding=utf-8
 set fileencodings=utf-8
 
+" 256 colors
+set t_Co=256 
+
 set nu
 set completeopt=menuone
 syntax on " syntax hilighting
@@ -55,12 +58,13 @@ NeoBundle 'Markdown'
 NeoBundle 'mattn/mkdpreview-vim'
 NeoBundle 'fugitive.vim'
 
+syntax enable
 filetype plugin indent on     " (5)
 
 """""""""""""""""
 " colorscheme
 """""""""""""""""
-colorscheme molokai
+"colorscheme molokai
 
 """"""""""""""""
 " powerline
