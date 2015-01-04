@@ -21,12 +21,17 @@ autocmd BufNewFile,BufRead *.markdown set filetype=html
 autocmd FileType javascript setl tabstop=8 expandtab shiftwidth=2 softtabstop=2
 autocmd FileType python setl autoindent
 autocmd FileType python setl smartindent cinwords=if,elif,else,for,while,try,except,finally,def,class
-autocmd FileType python,md,rst,sh,zsh,html,cpp setl tabstop=8 expandtab shiftwidth=4 softtabstop=4
+autocmd FileType go,python,md,rst,sh,zsh,html,cpp setl tabstop=8 expandtab shiftwidth=4 softtabstop=4
+autocmd FileType go setl tabstop=4 expandtab shiftwidth=4 softtabstop=4 noet
+autocmd FileType yaml setl tabstop=2 expandtab shiftwidth=2 softtabstop=2 noet
 autocmd FileType tex setl tabstop=4 expandtab shiftwidth=2 softtabstop=2
 autocmd FileType tex set spell
 
 set nocompatible
 filetype plugin indent off                   " (1)
+
+set rtp+=$GOROOT/misc/vim
+exe "set rtp+=".globpath($GOPATH, "src/github.com/nsf/gocode/vim")
 
 if has('vim_starting')
 	set runtimepath+=~/.vim/bundle/neobundle
