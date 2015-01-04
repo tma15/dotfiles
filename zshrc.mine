@@ -11,19 +11,19 @@ export LC_NUMERIC=ja_JP.UTF-8
 export LC_TIME=ja_JP.UTF-8
 export LC_ALL=
 
-export PATH=$HOME/local/bin:/usr/local/bin:$PATH:/opt/local/bin:/opt/local/sbin
-# export PATH=$PATH:$HOME/local/src/libsvm
-export MANPATH=$MANPATH:/opt/local/man
-# export PYTHONPATH=$PYTHONPATH:/Library/Python/2.6/site-packages:/Users/makino/.vim/plugin/vimpy
-export PYTHONPATH=$PYTHONPATH:$HOME/.virtualenvs/py27/lib/python2.7/site-packages/
-export PYTHONPATH=$PYTHONPATH:$HOME/local/src/libsvm/python
-export NLTK_DATA=$HOME/Corpus/nltk_data
+### PATH
+export PATH=$HOME/local/bin:/usr/local/bin:$PATH
 
+### Docker
 export DOCKER_HOST=tcp://127.0.0.1:4243
 
+### Editor
 EDITOR=/usr/bin/vim
 export EDITOR
 export WORKON_HOME=$HOME/.virtualenvs
+
+### Color
+export TERM=xterm-color256
 
 ### virtualenv
 if [ -f $HOME/local/bin/virtualenvwrapper.sh ]; then
@@ -31,7 +31,7 @@ if [ -f $HOME/local/bin/virtualenvwrapper.sh ]; then
 fi
 
 ### vim-powerline conf
-. /Users/makino/.virtualenvs/py27/lib/python2.7/site-packages/powerline/bindings/zsh/powerline.zsh
+# . $PYTHONPATH/powerline/bindings/zsh/powerline.zsh
 
 # do not distinguish Upper case or Lower case
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'

@@ -1,0 +1,38 @@
+snippet #!
+        #!/
+        #-*- coding:utf8 -*-
+
+snippet imp
+        import ${0:module}
+
+snippet from
+        from ${1:package} import ${0:module}
+
+snippet wh
+        while ${1:condition}
+                ${0}
+
+snippet with
+        with ${1:expr} as ${2:var}:
+                ${0}
+
+snippet if
+        if ${1:condition}:
+                ${0}
+
+snippet for
+        for ${1:item} in ${2:items}:
+                ${0}
+
+snippet ifmain
+        if __name__ == '__main__':
+                ${0:main()}
+
+snippet opt
+        from optparse import OptionParser
+        
+        usage ='${0}'
+        parser = OptionParser(usage)
+        parser.add_option('${1}', dest='${2}', help='')
+
+        (options, args) = parser.parse_args()

@@ -3,6 +3,9 @@ set fenc=utf-8
 set encoding=utf-8
 set fileencodings=utf-8
 
+" 256 colors
+set t_Co=256 
+
 set nu
 set completeopt=menuone
 syntax on " syntax hilighting
@@ -11,6 +14,9 @@ set hlsearch
 set showmatch
 set laststatus=2
 set guioptions+=a
+
+set rtp+=$GOROOT/misc/vim
+exe "set rtp+=".globpath($GOPATH, "src/github.com/nsf/gocode/vim")
 
 " Read NewFile as specified filetype
 autocmd BufNewFile,BufRead *.j2 set filetype=html
@@ -43,12 +49,15 @@ NeoBundleFetch 'Shougo/neobundle.vim'
 NeoBundle 'Shougo/neocomplcache'
 NeoBundle 'Shougo/neosnippet'
 NeoBundle 'Shougo/neosnippet-snippets'
-NeoBundle 'Shougo/unite.vim'
-NeoBundle 'Shougo/vimshell'
+"NeoBundle 'Shougo/unite.vim'
+"NeoBundle 'Shougo/neomru.vim' " required for unite.vim
+"NeoBundle 'Shougo/vimshell'
+NeoBundle 'scrooloose/nerdtree'
 NeoBundle 'nathanaelkane/vim-indent-guides'
+"NeoBundle 'plasticboy/vim-markdown'
 NeoBundle 'davidhalter/jedi'
 NeoBundle 'EnhCommentify.vim'
-NeoBundle 'molokai'
+NeoBundle 'tomasr/molokai'
 NeoBundle 'kien/rainbow_parentheses.vim'
 NeoBundle 'surround.vim'
 NeoBundle 'EasyMotion'
@@ -57,15 +66,19 @@ NeoBundle 'autodate.vim'
 NeoBundle 'surround.vim'
 NeoBundle 'quickrun'
 NeoBundle 'Markdown'
-NeoBundle 'mattn/mkdpreview-vim'
-NeoBundle 'fugitive.vim'
+"NeoBundle 'mattn/mkdpreview-vim'
+"NeoBundle 'fugitive.vim'
+"NeoBundle 'alpaca-tc/alpaca_powertabeline'
+"NeoBundle 'Lokaltog/powerline', {'rtp': 'powerline/bindings/vim'}
+"NeoBundle 'Lcaltog/powerline-fontpatcher'
 
+syntax enable
 filetype plugin indent on     " (5)
 
 """""""""""""""""
 " colorscheme
 """""""""""""""""
-colorscheme molokai
+"colorscheme molokai
 
 """"""""""""""""
 " powerline
