@@ -15,29 +15,27 @@ set showmatch
 set laststatus=2
 set guioptions+=a
 
-set rtp+=$GOROOT/misc/vim
-exe "set rtp+=".globpath($GOPATH, "src/github.com/nsf/gocode/vim")
-
 " Read NewFile as specified filetype
 autocmd BufNewFile,BufRead *.j2 set filetype=html
 autocmd BufNewFile,BufRead *.md set filetype=html
 autocmd BufNewFile,BufRead *.markdown set filetype=html
+autocmd BufNewFile,BufRead *.cu set filetype=cpp
 
-" JavaScript, C++
 autocmd FileType javascript setl tabstop=8 expandtab shiftwidth=2 softtabstop=2
 autocmd FileType python setl autoindent
 autocmd FileType python setl smartindent cinwords=if,elif,else,for,while,try,except,finally,def,class
 autocmd FileType go,python,md,rst,sh,zsh,html,cpp setl tabstop=8 expandtab shiftwidth=4 softtabstop=4
 autocmd FileType go setl tabstop=4 expandtab shiftwidth=4 softtabstop=4 noet
 autocmd FileType yaml setl tabstop=2 expandtab shiftwidth=2 softtabstop=2 noet
+autocmd FileType cu setl tabstop=2 expandtab shiftwidth=2 softtabstop=2 noet
 autocmd FileType tex setl tabstop=4 expandtab shiftwidth=2 softtabstop=2
 autocmd FileType tex set spell
 
 set nocompatible
 filetype plugin indent off                   " (1)
 
-set rtp+=$GOROOT/misc/vim
-exe "set rtp+=".globpath($GOPATH, "src/github.com/nsf/gocode/vim")
+"set rtp+=$GOROOT/misc/vim
+"exe "set rtp+=".globpath($GOPATH, "src/github.com/nsf/gocode/vim")
 
 if has('vim_starting')
 	set runtimepath+=~/.vim/bundle/neobundle
@@ -49,12 +47,8 @@ NeoBundleFetch 'Shougo/neobundle.vim'
 NeoBundle 'Shougo/neocomplcache'
 NeoBundle 'Shougo/neosnippet'
 NeoBundle 'Shougo/neosnippet-snippets'
-"NeoBundle 'Shougo/unite.vim'
-"NeoBundle 'Shougo/neomru.vim' " required for unite.vim
-"NeoBundle 'Shougo/vimshell'
 NeoBundle 'scrooloose/nerdtree'
 NeoBundle 'nathanaelkane/vim-indent-guides'
-"NeoBundle 'plasticboy/vim-markdown'
 NeoBundle 'davidhalter/jedi'
 NeoBundle 'EnhCommentify.vim'
 NeoBundle 'tomasr/molokai'
@@ -65,12 +59,8 @@ NeoBundle 'Pydiction'
 NeoBundle 'autodate.vim'
 NeoBundle 'surround.vim'
 NeoBundle 'quickrun'
-NeoBundle 'Markdown'
-"NeoBundle 'mattn/mkdpreview-vim'
-"NeoBundle 'fugitive.vim'
-"NeoBundle 'alpaca-tc/alpaca_powertabeline'
-"NeoBundle 'Lokaltog/powerline', {'rtp': 'powerline/bindings/vim'}
-"NeoBundle 'Lcaltog/powerline-fontpatcher'
+NeoBundle 'fatih/vim-go'
+NeoBundle 'gabrielelana/vim-markdown'
 
 syntax enable
 filetype plugin indent on     " (5)
@@ -78,7 +68,7 @@ filetype plugin indent on     " (5)
 """""""""""""""""
 " colorscheme
 """""""""""""""""
-"colorscheme molokai
+colorscheme molokai
 
 """"""""""""""""
 " powerline
@@ -221,15 +211,5 @@ if has('conceal')
 endif
 
 
-""" Kobito.app
-function! s:open_kobito(...)
-	if a:0 == 0
-		call system('open -a Kobito '.expand('%:p'))
-	else
-		call system('open -a Kobito '.join(a:000, ' '))
-	endif
-endfunction
-
-command! -nargs=* Kobito call s:open_kobito(<f-args>)
-command! -nargs=0 KobitoClose call system("osascript -e 'tell application \"Kobito\" to quit'")
-command! -nargs=0 KobitoFocus call system("osascript -e 'tell application \"Kobito\" to activate'")
+""" vim-markdown
+let g:markdown_enable_spell_checking = 0
