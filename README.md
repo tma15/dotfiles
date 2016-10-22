@@ -1,5 +1,6 @@
 # Dotfiles
-## My Environment
+This repository includes the configuration files of following tools:
+
 - zsh
 - tmux
 - vim
