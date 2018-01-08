@@ -16,6 +16,7 @@ set laststatus=2
 set guioptions+=a
 
 " Read NewFile as specified filetype
+autocmd BufNewFile,BufRead *.cuh set filetype=cpp
 autocmd BufNewFile,BufRead *.j2 set filetype=html
 autocmd BufNewFile,BufRead *.md set filetype=html
 autocmd BufNewFile,BufRead *.markdown set filetype=html
@@ -24,7 +25,8 @@ autocmd BufNewFile,BufRead *.cu set filetype=cpp
 autocmd FileType javascript setl tabstop=8 expandtab shiftwidth=2 softtabstop=2
 autocmd FileType python setl autoindent
 autocmd FileType python setl smartindent cinwords=if,elif,else,for,while,try,except,finally,def,class
-autocmd FileType go,python,md,rst,sh,zsh,html,cpp setl tabstop=8 expandtab shiftwidth=4 softtabstop=4
+autocmd FileType go,python,md,rst,sh,zsh,html setl tabstop=8 expandtab shiftwidth=4 softtabstop=4
+autocmd FileType cpp setl tabstop=4 expandtab shiftwidth=2 softtabstop=2
 autocmd FileType go setl tabstop=4 expandtab shiftwidth=4 softtabstop=4 noet
 autocmd FileType yaml setl tabstop=2 expandtab shiftwidth=2 softtabstop=2 noet
 autocmd FileType cu setl tabstop=2 expandtab shiftwidth=2 softtabstop=2 noet
