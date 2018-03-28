@@ -41,7 +41,7 @@ filetype plugin indent off                   " (1)
 
 if has('vim_starting')
 	set runtimepath+=~/.vim/bundle/neobundle
-	call neobundle#rc(expand('~/.vim/bundle/'))
+	call neobundle#begin(expand('~/.vim/bundle'))
 endif
 
 NeoBundleFetch 'Shougo/neobundle.vim'
@@ -66,6 +66,8 @@ NeoBundle 'gabrielelana/vim-markdown'
 
 syntax enable
 filetype plugin indent on     " (5)
+
+call neobundle#end()
 
 """""""""""""""""
 " colorscheme
