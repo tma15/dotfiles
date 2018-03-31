@@ -16,10 +16,7 @@ set laststatus=2
 set guioptions+=a
 
 " Read NewFile as specified filetype
-autocmd BufNewFile,BufRead *.cuh set filetype=cpp
 autocmd BufNewFile,BufRead *.j2 set filetype=html
-autocmd BufNewFile,BufRead *.md set filetype=html
-autocmd BufNewFile,BufRead *.markdown set filetype=html
 autocmd BufNewFile,BufRead *.cu set filetype=cpp
 
 autocmd FileType javascript setl tabstop=8 expandtab shiftwidth=2 softtabstop=2
@@ -36,9 +33,6 @@ autocmd FileType tex set spell
 set nocompatible
 filetype plugin indent off                   " (1)
 
-"set rtp+=$GOROOT/misc/vim
-"exe "set rtp+=".globpath($GOPATH, "src/github.com/nsf/gocode/vim")
-
 if has('vim_starting')
 	set runtimepath+=~/.vim/bundle/neobundle
 	call neobundle#begin(expand('~/.vim/bundle'))
@@ -46,23 +40,21 @@ endif
 
 NeoBundleFetch 'Shougo/neobundle.vim'
 
+NeoBundle 'autodate.vim'
+NeoBundle 'davidhalter/jedi'
+NeoBundle 'EasyMotion'
+NeoBundle 'EnhCommentify.vim'
+NeoBundle 'gabrielelana/vim-markdown'
+NeoBundle 'kien/rainbow_parentheses.vim'
+NeoBundle 'nathanaelkane/vim-indent-guides'
+NeoBundle 'scrooloose/nerdtree'
 NeoBundle 'Shougo/neocomplcache'
 NeoBundle 'Shougo/neosnippet'
 NeoBundle 'Shougo/neosnippet-snippets'
-NeoBundle 'scrooloose/nerdtree'
-NeoBundle 'nathanaelkane/vim-indent-guides'
-NeoBundle 'davidhalter/jedi'
-NeoBundle 'EnhCommentify.vim'
+NeoBundle 'surround.vim'
 NeoBundle 'tomasr/molokai'
-NeoBundle 'kien/rainbow_parentheses.vim'
-NeoBundle 'surround.vim'
-NeoBundle 'EasyMotion'
 NeoBundle 'Pydiction'
-NeoBundle 'autodate.vim'
-NeoBundle 'surround.vim'
 NeoBundle 'quickrun'
-NeoBundle 'fatih/vim-go'
-NeoBundle 'gabrielelana/vim-markdown'
 
 syntax enable
 filetype plugin indent on     " (5)
@@ -73,13 +65,6 @@ call neobundle#end()
 " colorscheme
 """""""""""""""""
 colorscheme molokai
-
-""""""""""""""""
-" powerline
-"""""""""""""""
-set rtp+=~/.virtualenvs/py27/lib/python2.7/site-packages/powerline/bindings/vim
-set guifont=Ricty\ Regular\ for\ Powerline.ttf
-"let g:Powerline_symbols='fancy'
 
 """"""""""""""""
 " Unite.vim
@@ -95,6 +80,12 @@ noremap <C-U><C-R> :Unite -buffer-name=register register<CR>
 " Create new file
 noremap <C-U><C-N> :<C-u>UniteWithBufferDir file file/new -buffer-name=file<CR>
 
+
+"""""""""""""""""""""
+" NERDTree
+"""""""""""""""""""""
+nnoremap <silent><C-e> :NERDTreeToggle<CR>
+
 """""""""""""""""""""
 " Vim indent guide
 """""""""""""""""""""
@@ -106,18 +97,6 @@ let g:indent_guides_auto_colors = 0
 autocmd VimEnter,ColorScheme * :hi IndentGuidesOdd ctermbg=darkgray
 autocmd VimEnter,ColorScheme * :hi IndentGuidesEven ctermbg=lightgreen
 highlight Normal guifg=white guibg=black
-
-"""""""""""""""""""""
-" VimShell
-"""""""""""""""""""""
-" vimshell setting
-let g:vimshell_interactive_update_time = 10
-
-" vimshell map
-nnoremap <silent> vs :VimShell<CR>
-nnoremap <silent> vsc :VimShellCreate<CR>
-nnoremap <silent> vp :VimShellPop<CR>
-inoremap <expr><C-x><C-o> &filetype == 'vim' ? "\<C-x><C-v><C-p>" :
 
 """""""""""""""""""""
 " quickrun
