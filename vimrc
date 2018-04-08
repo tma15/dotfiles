@@ -31,60 +31,65 @@ autocmd FileType tex setl tabstop=4 expandtab shiftwidth=2 softtabstop=2
 autocmd FileType tex set spell
 
 set nocompatible
+
 filetype plugin indent off                   " (1)
 
-if has('vim_starting')
-	set runtimepath+=~/.vim/bundle/neobundle
-	call neobundle#begin(expand('~/.vim/bundle'))
+
+let s:dein_dir = expand('~/.cache/dein')
+let s:dein_repo_dir = s:dein_dir . '/repos/github.com/Shougo/dein.vim'
+
+if &runtimepath !~# '/dein.vim'
+  if !isdirectory(s:dein_repo_dir)
+    execute '!git clone https://github.com/Shougo/dein.vim' s:dein_repo_dir
+  endif
+  execute 'set runtimepath^=' . fnamemodify(s:dein_repo_dir, ':p')
 endif
 
-NeoBundleFetch 'Shougo/neobundle.vim'
+if &compatible
+  set nocompatible
+endif
+set runtimepath+=~/.vim/dein/repos/github.com/Shougo/dein.vim
 
-NeoBundle 'autodate.vim'
-NeoBundle 'davidhalter/jedi'
-NeoBundle 'EasyMotion'
-NeoBundle 'EnhCommentify.vim'
-NeoBundle 'gabrielelana/vim-markdown'
-NeoBundle 'kien/rainbow_parentheses.vim'
-NeoBundle 'nathanaelkane/vim-indent-guides'
-NeoBundle 'scrooloose/nerdtree'
-NeoBundle 'Shougo/neocomplcache'
-NeoBundle 'Shougo/neosnippet'
-NeoBundle 'Shougo/neosnippet-snippets'
-NeoBundle 'surround.vim'
-NeoBundle 'tomasr/molokai'
-NeoBundle 'Pydiction'
-NeoBundle 'quickrun'
+call dein#begin(expand('~/.vim/dein'))
+
+call dein#add('Shougo/dein.vim')
+call dein#add('Shougo/neocomplcache.vim')
+call dein#add('davidhalter/jedi')
+call dein#add('vim-scripts/EasyMotion')
+call dein#add('vim-scripts/EnhCommentify.vim')
+call dein#add('gabrielelana/vim-markdown')
+call dein#add('kien/rainbow_parentheses.vim')
+call dein#add('nathanaelkane/vim-indent-guides')
+call dein#add('scrooloose/nerdtree')
+call dein#add('Shougo/neocomplcache')
+call dein#add('Shougo/neosnippet')
+call dein#add('Shougo/neosnippet-snippets')
+call dein#add('vim-scripts/surround.vim')
+call dein#add('tomasr/molokai')
+call dein#add('vim-scripts/Pydiction')
+call dein#add('vim-scripts/quickrun')
+
+call dein#end()
+
+filetype plugin indent on
+
+if dein#check_install()
+  call dein#install()
+endif
+
 
 syntax enable
 filetype plugin indent on     " (5)
-
-call neobundle#end()
 
 """""""""""""""""
 " colorscheme
 """""""""""""""""
 colorscheme molokai
 
-""""""""""""""""
-" Unite.vim
-""""""""""""""""
-" list buffer
-noremap <C-U><C-B> :Unite buffer<CR> 
-" list of files in the directory of currently opened file
-noremap <C-U><C-F> :UniteWithBufferDir -buffer-name=files file<CR>
-" list of files those which are opened recently
-noremap <C-U><C-Y> :Unite file_mru<CR>
-" list of register
-noremap <C-U><C-R> :Unite -buffer-name=register register<CR>
-" Create new file
-noremap <C-U><C-N> :<C-u>UniteWithBufferDir file file/new -buffer-name=file<CR>
-
-
 """""""""""""""""""""
 " NERDTree
 """""""""""""""""""""
-nnoremap <silent><C-e> :NERDTreeToggle<CR>
+nnoremap <silent><C-w> :NERDTreeToggle<CR>
 
 """""""""""""""""""""
 " Vim indent guide
