@@ -53,21 +53,22 @@ set runtimepath+=~/.vim/dein/repos/github.com/Shougo/dein.vim
 call dein#begin(expand('~/.vim/dein'))
 
 call dein#add('Shougo/dein.vim')
-call dein#add('Shougo/neocomplcache.vim')
+
+call dein#add('ctrlpvim/ctrlp.vim')
 call dein#add('davidhalter/jedi')
-call dein#add('vim-scripts/EasyMotion')
-call dein#add('vim-scripts/EnhCommentify.vim')
 call dein#add('gabrielelana/vim-markdown')
 call dein#add('kien/rainbow_parentheses.vim')
 call dein#add('nathanaelkane/vim-indent-guides')
 call dein#add('scrooloose/nerdtree')
-call dein#add('Shougo/neocomplcache')
+call dein#add('Shougo/neocomplcache.vim')
 call dein#add('Shougo/neosnippet')
 call dein#add('Shougo/neosnippet-snippets')
-call dein#add('vim-scripts/surround.vim')
 call dein#add('tomasr/molokai')
+call dein#add('vim-scripts/EasyMotion')
+call dein#add('vim-scripts/EnhCommentify.vim')
 call dein#add('vim-scripts/Pydiction')
 call dein#add('vim-scripts/quickrun')
+call dein#add('vim-scripts/surround.vim')
 
 call dein#end()
 
@@ -89,7 +90,23 @@ colorscheme molokai
 """""""""""""""""""""
 " NERDTree
 """""""""""""""""""""
-nnoremap <silent><C-w> :NERDTreeToggle<CR>
+"nnoremap <silent><C-w> :NERDTreeToggle<CR>
+
+"""""""""""""""""""""
+" ctrlp
+"""""""""""""""""""""
+let g:ctrlp_map = '<c-p>'
+let g:ctrlp_cmd = 'CtrlP'
+
+set wildignore+=*/tmp/*,*.so,*.swp,*.zip     " MacOSX/Linux
+set wildignore+=*\\tmp\\*,*.swp,*.zip,*.exe  " Windows
+
+let g:ctrlp_custom_ignore = '\v[\/]\.(git|hg|svn)$'
+let g:ctrlp_custom_ignore = {
+  \ 'dir':  '\v[\/]\.(git|hg|svn)$',
+  \ 'file': '\v\.(exe|so|dll)$',
+  \ 'link': 'some_bad_symbolic_links',
+  \ }
 
 """""""""""""""""""""
 " Vim indent guide
