@@ -17,7 +17,7 @@ link_files() {
 install_dotfiles() {
     ###### https://github.com/sorin-ionescu/prezto
     link_files `pwd`/zprezto ~/.zprezto
-    setopt EXTENDED_GLOB # 柔軟なマッチングでファイル指定
+    setopt EXTENDED_GLOB
     for rcfile in ~/.zprezto/runcoms/^README.md(.N)
     do
         dest=~/.`basename $rcfile`
@@ -27,7 +27,6 @@ install_dotfiles() {
     link_files `pwd`/tmux.conf ~/.tmux.conf
     link_files `pwd`/vimrc ~/.vimrc
     link_files `pwd`/vim ~/.vim
-    link_files `pwd`/zpreztorc ~/.zpreztorc
     vim -e -S ./vimexcmd.txt # vim -c ':NeoBundleInstall'
 }
 
