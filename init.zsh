@@ -27,7 +27,7 @@ install_dotfiles() {
     link_files `pwd`/tmux.conf ~/.tmux.conf
     link_files `pwd`/vimrc ~/.vimrc
     link_files `pwd`/vim ~/.vim
-    vim -e -S ./vimexcmd.txt # vim -c ':NeoBundleInstall'
+    vim -V -e -S ./vimexcmd.txt # vim -c ':NeoBundleInstall'
 }
 
 setup_git_submodule
