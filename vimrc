@@ -53,9 +53,13 @@ set runtimepath+=~/.vim/dein/repos/github.com/Shougo/dein.vim
 call dein#begin(expand('~/.vim/dein'))
 
 call dein#add('Shougo/dein.vim')
-
 call dein#add('ctrlpvim/ctrlp.vim')
-call dein#add('davidhalter/jedi')
+call dein#add('davidhalter/jedi-vim')
+call dein#add('lambdalisue/vim-pyenv', {
+	\ 'depends' : ['davidhalter/jedi-vim'],
+	\ 'autoload' : {
+	\   'filetypes' : ['python'],
+	\ }})
 call dein#add('gabrielelana/vim-markdown')
 call dein#add('kien/rainbow_parentheses.vim')
 call dein#add('nathanaelkane/vim-indent-guides')
@@ -64,11 +68,11 @@ call dein#add('Shougo/neocomplcache.vim')
 call dein#add('Shougo/neosnippet')
 call dein#add('Shougo/neosnippet-snippets')
 call dein#add('tomasr/molokai')
-call dein#add('vim-scripts/EasyMotion')
+"call dein#add('vim-scripts/EasyMotion')
 call dein#add('vim-scripts/EnhCommentify.vim')
-call dein#add('vim-scripts/Pydiction')
-call dein#add('vim-scripts/quickrun')
-call dein#add('vim-scripts/surround.vim')
+"call dein#add('vim-scripts/Pydiction')
+"call dein#add('vim-scripts/quickrun')
+"call dein#add('vim-scripts/surround.vim')
 
 call dein#end()
 
@@ -120,26 +124,15 @@ autocmd VimEnter,ColorScheme * :hi IndentGuidesOdd ctermbg=darkgray
 autocmd VimEnter,ColorScheme * :hi IndentGuidesEven ctermbg=lightgreen
 highlight Normal guifg=white guibg=black
 
-"""""""""""""""""""""
-" quickrun
-"""""""""""""""""""""
-let g:quickrun_config = {}
-let g:quickrun_config['markdown'] = {
-      \ 'outputter': 'browser'
-      \ }
-
-"""""""""""""""""
-" Pydiction
-"""""""""""""""""
-let g:pydiction_location = '~/.vim/bundle/Pydiction/complete-dict'
-
 """""""""""""""""
 " Jedi
 """""""""""""""""
 let g:jedi#auto_initialization = 1
 let g:jedi#rename_command= "<leader>R"
-let g:jedi#pupup_on_dot = 1
+let g:jedi#popup_on_dot = 1
+let g:jedi#show_call_signatures = 0
 autocmd FileType python let b:did_ftplugin = 1
+autocmd FileType python setlocal omnifunc=jedi#completions
 
 " Define dictionary. 
 let g:neocomplcache_dictionary_filetype_lists = { 
@@ -171,7 +164,7 @@ if !exists('g:neocomplcache_keyword_patterns')
 endif
 let g:neocomplcache_keyword_patterns['default'] = '\h\w*'
 
-noremap <CR> o<ESC>
+"noremap <CR> o<ESC>
 " Recommended key-mappings
 " <CR>: close popup and save indent.
 inoremap <expr><CR> neocomplcache#smart_close_popup() . "\<CR>"
@@ -184,19 +177,21 @@ inoremap <expr><C-y> neocomplcache#close_popup()
 inoremap <expr><C-e> neocomplcache#close_popup()
 
 " AutoComplPop like behavior
-"let g:neocomplcache_enable_auto_select = 1
+let g:neocomplcache_enable_auto_select = 1
 
 " Enable omni completion.
-autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
-autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
-autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
-autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
-autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
+"autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
+"autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
+"autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
+"autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
+"autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
 
 " Enable heavy omni completionin
-if !exists('g:neocomplcache_omni_patterns')
-    let g:neocomplcache_omni_patterns = {}
-endif
+"if !exists('g:neocomplcache_omni_patterns')
+"    let g:neocomplcache_omni_patterns = {}
+"endif
+
+let g:neocomplete#sources#omni#input_patterns = {"python" : '\h\w*\|[^. \t]\.\w*'}
 
 """""""""""""""""""""""""""""""
 " neosnippet
