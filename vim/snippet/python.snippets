@@ -28,11 +28,11 @@ snippet ifmain
         if __name__ == '__main__':
                 ${0:main()}
 
-snippet opt
-        from optparse import OptionParser
+snippet argp
+        from argparse import ArgumentParser
         
         usage ='${0}'
-        parser = OptionParser(usage)
-        parser.add_option('${1}', dest='${2}', help='')
+        parser = ArgumentParser(usage)
+        parser.add_argment('${1}', help='')
 
-        (options, args) = parser.parse_args()
+        args = parser.parse_args()

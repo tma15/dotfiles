@@ -1,6 +1,3 @@
-let g:python_host_prog = $PYENV_ROOT.'/versions/neovim2/bin/python'
-let g:python3_host_prog = $PYENV_ROOT.'/versions/neovim3/bin/python'
-
 set enc=utf-8
 set fenc=utf-8
 set encoding=utf-8
@@ -19,20 +16,13 @@ set laststatus=2
 set guioptions+=a
 
 " Read NewFile as specified filetype
-autocmd BufNewFile,BufRead *.j2,*.vue set filetype=html
-autocmd BufNewFile,BufRead *.cu set filetype=cpp
-
 autocmd FileType javascript setl tabstop=8 expandtab shiftwidth=2 softtabstop=2
 autocmd FileType python setl autoindent
 autocmd FileType python setl smartindent cinwords=if,elif,else,for,while,try,except,finally,def,class
-autocmd FileType go,python,md,rst,sh,zsh setl tabstop=8 expandtab shiftwidth=4 softtabstop=4
+autocmd FileType python,md,rst,sh,zsh setl tabstop=8 expandtab shiftwidth=4 softtabstop=4
 autocmd FileType html setl tabstop=8 expandtab shiftwidth=2 softtabstop=2
 autocmd FileType cpp setl tabstop=4 expandtab shiftwidth=2 softtabstop=2
-autocmd FileType go setl tabstop=4 expandtab shiftwidth=4 softtabstop=4 noet
 autocmd FileType yaml setl tabstop=2 expandtab shiftwidth=2 softtabstop=2 noet
-autocmd FileType cu setl tabstop=2 expandtab shiftwidth=2 softtabstop=2 noet
-autocmd FileType tex setl tabstop=4 expandtab shiftwidth=2 softtabstop=2
-autocmd FileType tex set spell
 
 set nocompatible
 
@@ -72,11 +62,8 @@ call dein#add('Shougo/neocomplcache.vim')
 call dein#add('Shougo/neosnippet')
 call dein#add('Shougo/neosnippet-snippets')
 call dein#add('tomasr/molokai')
-"call dein#add('vim-scripts/EasyMotion')
 call dein#add('vim-scripts/EnhCommentify.vim')
-"call dein#add('vim-scripts/Pydiction')
-"call dein#add('vim-scripts/quickrun')
-"call dein#add('vim-scripts/surround.vim')
+call dein#add('ervandew/supertab')
 
 call dein#end()
 
@@ -86,9 +73,9 @@ if dein#check_install()
   call dein#install()
 endif
 
-
 syntax enable
 filetype plugin indent on     " (5)
+
 
 """""""""""""""""
 " colorscheme
@@ -132,18 +119,12 @@ highlight Normal guifg=white guibg=black
 " Jedi
 """""""""""""""""
 let g:jedi#auto_initialization = 1
-let g:jedi#rename_command= "<leader>R"
+let g:jedi#completions_command = "<Tab>"
 let g:jedi#popup_on_dot = 1
-let g:jedi#show_call_signatures = 0
+let g:jedi#show_call_signatures = 1
 autocmd FileType python let b:did_ftplugin = 1
 autocmd FileType python setlocal omnifunc=jedi#completions
 
-" Define dictionary. 
-" let g:neocomplcache_dictionary_filetype_lists = { 
-"     \ 'default' : '',
-"     \ 'vimshell' : $HOME.'/.vimshell_hist', 
-"     \ 'scheme' : $HOME.'/.gosh_completions' 
-"     \ } 
 
 """"""""""""""""""""""
 " neocomplcache
@@ -160,7 +141,7 @@ autocmd FileType python setlocal omnifunc=jedi#completions
 " let g:neocomplcache_min_syntax_length = 3
 " let g:neocomplcache_lock_buffer_name_patter = '\*ku\*'
 " 
-" inoremap <expr><C-x><C-f>  neocomplcache#manual_filename_complete()
+inoremap <expr><C-x><C-f>  neocomplcache#manual_filename_complete()
 
 " Define keyword
 " if !exists('g:neocomplcache_keyword_patterns')
@@ -177,8 +158,8 @@ inoremap <expr><TAB> pumvisible() ? "\<C-n>" : "\<Tab>"
 " <C-h>, <BS>: close popup and delete backword char.
 "inoremap <expr><C-h> neocomplcache#smart_close_popup()."\<C-h>"
 "inoremap <expr><BS> neocomplcache#smart_close_popup()."\<C-h>"
-" inoremap <expr><C-y> neocomplcache#close_popup()
-" inoremap <expr><C-e> neocomplcache#close_popup()
+"inoremap <expr><C-y> neocomplcache#close_popup()
+"inoremap <expr><C-e> neocomplcache#close_popup()
 
 " AutoComplPop like behavior
 let g:neocomplcache_enable_auto_select = 1
@@ -201,18 +182,19 @@ let g:neocomplete#sources#omni#input_patterns = {"python" : '\h\w*\|[^. \t]\.\w*
 " neosnippet
 """""""""""""""""""""""""""""""
 " Plugin key-mappings
-" imap <C-k>    <Plug>(neosnippet_expand_or_jump)
-" smap <C-k>    <Plug>(neosnippet_expand_or_jump)
+imap <C-k>    <Plug>(neosnippet_expand_or_jump)
+smap <C-k>    <Plug>(neosnippet_expand_or_jump)
 
 " SuperTab like snippets behavior
-" imap <expr><C-l>
-" \ neosnippet#expandable() <Bar><Bar> neosnippet#jumpable() ?
-" \ "\<Plug>(neosnippet_expand_or_jump)" : "\<C-n>"
+smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
+\ "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
 
 " For snippet complete marker
 if has('conceal')
 	set conceallevel=2 concealcursor=i
 endif
+" Tell Neosnippet about the other snippets
+let g:neosnippet#snippets_directory='~/.vim/snippet'
 
 
 """""""""""""""
