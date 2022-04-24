@@ -18,8 +18,12 @@ link_files() {
 
 
 setup_pyenv() {
-    echo "export PYENV_ROOT=${HOME}/.pyenv" >> ~/.zshrc
+    echo "export PYENV_ROOT=${PYENV_ROOT}" >> ~/.zshrc
     echo "export PATH=${PYENV_ROOT}/bin:$PATH" >> ~/.zshrc
+
+    export PYENV_ROOT=${HOME}/.pyenv
+    export PATH=${PYENV_ROOT}/bin:$PATH
+
     echo 'eval "$(pyenv init -)"' >> ~/.zshrc
 }
 
