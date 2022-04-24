@@ -1,6 +1,6 @@
-[submodule "vim/bundle/neobundle"]
-	path = vim/bundle/neobundle
-	url = https://github.com/Shougo/neobundle.vim.git
 [submodule "zprezto"]
 	path = zprezto
 	url = https://github.com/sorin-ionescu/prezto.git
+[submodule "pyenv"]
+	path = pyenv
+	url = https://github.com/pyenv/pyenv.git
