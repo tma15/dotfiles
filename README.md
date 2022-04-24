@@ -5,6 +5,7 @@ This repository includes configuration files of following tools:
 - tmux
 - vim
 - git
+- pyenv
 
 ## Install
 ```sh
