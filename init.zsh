@@ -20,7 +20,7 @@ link_files() {
 setup_pyenv() {
     echo "export PYENV_ROOT=${HOME}/.pyenv" >> ~/.zshrc
     echo "export PATH=${PYENV_ROOT}/bin:$PATH" >> ~/.zshrc
-    echo "eval \"$(pyenv init -)\"" >> ~/.zshrc
+    echo 'eval "$(pyenv init -)"' >> ~/.zshrc
 }
 
 
