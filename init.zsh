@@ -7,7 +7,7 @@ success() {
 
 setup_git_submodule() {
     git submodule update --init --recursive
-    success "git sumodule update --init --recursive"
+    success "git submodule update --init --recursive"
 }
 
 
@@ -18,12 +18,11 @@ link_files() {
 
 
 setup_pyenv() {
-    echo "export PYENV_ROOT=${PYENV_ROOT}" >> ~/.zshrc
-    echo "export PATH=${PYENV_ROOT}/bin:$PATH" >> ~/.zshrc
-
     export PYENV_ROOT=${HOME}/.pyenv
     export PATH=${PYENV_ROOT}/bin:$PATH
 
+    echo "export PYENV_ROOT=${PYENV_ROOT}" >> ~/.zshrc
+    echo "export PATH=${PYENV_ROOT}/bin:$PATH" >> ~/.zshrc
     echo 'eval "$(pyenv init -)"' >> ~/.zshrc
 }
 
