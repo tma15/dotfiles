@@ -1,3 +1,6 @@
+let g:python_host_prog = $PYENV_ROOT.'/versions/neovim2/bin/python'
+let g:python3_host_prog = $PYENV_ROOT.'/versions/neovim3/bin/python'
+
 set enc=utf-8
 set fenc=utf-8
 set encoding=utf-8
@@ -16,13 +19,14 @@ set laststatus=2
 set guioptions+=a
 
 " Read NewFile as specified filetype
-autocmd BufNewFile,BufRead *.j2 set filetype=html
+autocmd BufNewFile,BufRead *.j2,*.vue set filetype=html
 autocmd BufNewFile,BufRead *.cu set filetype=cpp
 
 autocmd FileType javascript setl tabstop=8 expandtab shiftwidth=2 softtabstop=2
 autocmd FileType python setl autoindent
 autocmd FileType python setl smartindent cinwords=if,elif,else,for,while,try,except,finally,def,class
-autocmd FileType go,python,md,rst,sh,zsh,html setl tabstop=8 expandtab shiftwidth=4 softtabstop=4
+autocmd FileType go,python,md,rst,sh,zsh setl tabstop=8 expandtab shiftwidth=4 softtabstop=4
+autocmd FileType html setl tabstop=8 expandtab shiftwidth=2 softtabstop=2
 autocmd FileType cpp setl tabstop=4 expandtab shiftwidth=2 softtabstop=2
 autocmd FileType go setl tabstop=4 expandtab shiftwidth=4 softtabstop=4 noet
 autocmd FileType yaml setl tabstop=2 expandtab shiftwidth=2 softtabstop=2 noet
@@ -135,46 +139,46 @@ autocmd FileType python let b:did_ftplugin = 1
 autocmd FileType python setlocal omnifunc=jedi#completions
 
 " Define dictionary. 
-let g:neocomplcache_dictionary_filetype_lists = { 
-    \ 'default' : '', 
-    \ 'vimshell' : $HOME.'/.vimshell_hist', 
-    \ 'scheme' : $HOME.'/.gosh_completions' 
-    \ } 
+" let g:neocomplcache_dictionary_filetype_lists = { 
+"     \ 'default' : '',
+"     \ 'vimshell' : $HOME.'/.vimshell_hist', 
+"     \ 'scheme' : $HOME.'/.gosh_completions' 
+"     \ } 
 
 """"""""""""""""""""""
 " neocomplcache
 """""""""""""""""""""
 " Disable AutoComplPop
-let g:acp_enableAtStartup = 0
+" let g:acp_enableAtStartup = 0
 " Use neocomplcache
-let g:neocomplcache_enable_at_startup = 1
+" let g:neocomplcache_enable_at_startup = 1
 " Use smartcase
-let g:neocomplcache_camel_case_completion = 1
+" let g:neocomplcache_camel_case_completion = 1
 " Use underbar completion
-let g:neocomplcache_enable_underbar_completion = 1
+" let g:neocomplcache_enable_underbar_completion = 1
 " Set minimum syntax keyword length
-let g:neocomplcache_min_syntax_length = 3
-let g:neocomplcache_lock_buffer_name_patter = '\*ku\*'
-
-inoremap <expr><C-x><C-f>  neocomplcache#manual_filename_complete()
+" let g:neocomplcache_min_syntax_length = 3
+" let g:neocomplcache_lock_buffer_name_patter = '\*ku\*'
+" 
+" inoremap <expr><C-x><C-f>  neocomplcache#manual_filename_complete()
 
 " Define keyword
-if !exists('g:neocomplcache_keyword_patterns')
-    let g:neocomplcache_keyword_patterns = {}
-endif
-let g:neocomplcache_keyword_patterns['default'] = '\h\w*'
+" if !exists('g:neocomplcache_keyword_patterns')
+"     let g:neocomplcache_keyword_patterns = {}
+" endif
+" let g:neocomplcache_keyword_patterns['default'] = '\h\w*'
 
 "noremap <CR> o<ESC>
 " Recommended key-mappings
 " <CR>: close popup and save indent.
-inoremap <expr><CR> neocomplcache#smart_close_popup() . "\<CR>"
+"inoremap <expr><CR> neocomplcache#smart_close_popup() . "\<CR>"
 " <TAB>: completionin
 inoremap <expr><TAB> pumvisible() ? "\<C-n>" : "\<Tab>"
 " <C-h>, <BS>: close popup and delete backword char.
-inoremap <expr><C-h> neocomplcache#smart_close_popup()."\<C-h>"
-inoremap <expr><BS> neocomplcache#smart_close_popup()."\<C-h>"
-inoremap <expr><C-y> neocomplcache#close_popup()
-inoremap <expr><C-e> neocomplcache#close_popup()
+"inoremap <expr><C-h> neocomplcache#smart_close_popup()."\<C-h>"
+"inoremap <expr><BS> neocomplcache#smart_close_popup()."\<C-h>"
+" inoremap <expr><C-y> neocomplcache#close_popup()
+" inoremap <expr><C-e> neocomplcache#close_popup()
 
 " AutoComplPop like behavior
 let g:neocomplcache_enable_auto_select = 1
@@ -197,13 +201,13 @@ let g:neocomplete#sources#omni#input_patterns = {"python" : '\h\w*\|[^. \t]\.\w*
 " neosnippet
 """""""""""""""""""""""""""""""
 " Plugin key-mappings
-imap <C-k>    <Plug>(neosnippet_expand_or_jump)
-smap <C-k>    <Plug>(neosnippet_expand_or_jump)
+" imap <C-k>    <Plug>(neosnippet_expand_or_jump)
+" smap <C-k>    <Plug>(neosnippet_expand_or_jump)
 
 " SuperTab like snippets behavior
-imap <expr><C-l>
-\ neosnippet#expandable() <Bar><Bar> neosnippet#jumpable() ?
-\ "\<Plug>(neosnippet_expand_or_jump)" : "\<C-n>"
+" imap <expr><C-l>
+" \ neosnippet#expandable() <Bar><Bar> neosnippet#jumpable() ?
+" \ "\<Plug>(neosnippet_expand_or_jump)" : "\<C-n>"
 
 " For snippet complete marker
 if has('conceal')
