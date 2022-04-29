@@ -15,6 +15,19 @@ set showmatch
 set laststatus=2
 set guioptions+=a
 
+set wildmenu
+inoremap <Tab> <C-X><C-F>
+
+" Wildmenu
+if has("wildmenu")
+  set wildignore+=*.a,*.o
+  set wildignore+=*.bmp,*.gif,*.ico,*.jpg,*.png
+  set wildignore+=.DS_Store,.git,.hg,.svn
+  set wildignore+=*~,*.swp,*.tmp
+  set wildmenu
+  set wildmode=longest,list
+endif
+
 " Read NewFile as specified filetype
 autocmd FileType javascript setl tabstop=8 expandtab shiftwidth=2 softtabstop=2
 autocmd FileType python setl autoindent
@@ -58,6 +71,7 @@ call dein#add('gabrielelana/vim-markdown')
 call dein#add('kien/rainbow_parentheses.vim')
 call dein#add('nathanaelkane/vim-indent-guides')
 call dein#add('scrooloose/nerdtree')
+call dein#add('Shougo/neocomplcache.vim')
 call dein#add('Shougo/neosnippet')
 call dein#add('Shougo/neosnippet-snippets')
 call dein#add('tomasr/molokai')
@@ -103,6 +117,37 @@ let g:ctrlp_custom_ignore = {
   \ }
 
 """""""""""""""""""""
+" neocomplcache.vim
+"""""""""""""""""""""
+"" Disable AutoComplPop.
+let g:acp_enableAtStartup = 0
+" Use neocomplcache.
+let g:neocomplcache_enable_at_startup = 1
+" " Use smartcase.
+let g:neocomplcache_enable_smart_case = 1
+" " Set minimum syntax keyword length.
+let g:neocomplcache_min_syntax_length = 3
+let g:neocomplcache_lock_buffer_name_pattern = '\*ku\*'
+
+" Plugin key-mappings.
+inoremap <expr><C-g>     neocomplcache#undo_completion()
+inoremap <expr><C-l>     neocomplcache#complete_common_string()
+
+" Recommended key-mappings.
+" <CR>: close popup and save indent.
+inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
+function! s:my_cr_function()
+  return neocomplcache#smart_close_popup() . "\<CR>"
+endfunction
+" <TAB>: completion.
+inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
+" <C-h>, <BS>: close popup and delete backword char.
+inoremap <expr><C-h> neocomplcache#smart_close_popup()."\<C-h>"
+inoremap <expr><BS> neocomplcache#smart_close_popup()."\<C-h>"
+inoremap <expr><C-y>  neocomplcache#close_popup()
+inoremap <expr><C-e>  neocomplcache#cancel_popup()
+
+"""""""""""""""""""""
 " Vim indent guide
 """""""""""""""""""""
 " hilight indent
@@ -123,6 +168,7 @@ let g:jedi#popup_on_dot = 1
 let g:jedi#show_call_signatures = 1
 autocmd FileType python let b:did_ftplugin = 1
 autocmd FileType python setlocal omnifunc=jedi#completions
+
 
 """""""""""""""""""""""""""""""
 " neosnippet
