@@ -17,32 +17,21 @@ link_files() {
 }
 
 
-setup_pyenv() {
-    export PYENV_ROOT=${HOME}/.pyenv
-    export PATH=${PYENV_ROOT}/bin:$PATH
-
-    echo "export PYENV_ROOT=${PYENV_ROOT}" >> ~/.zshrc
-    echo "export PATH=${PYENV_ROOT}/bin:$PATH" >> ~/.zshrc
-    echo 'eval "$(pyenv init -)"' >> ~/.zshrc
-}
-
-
 install_dotfiles() {
     # https://github.com/sorin-ionescu/prezto
     link_files `pwd`/zprezto ~/.zprezto
-    setopt EXTENDED_GLOB
-    for rcfile in ~/.zprezto/runcoms/^README.md(.N)
-    do
-        dest=~/.`basename $rcfile`
-        link_files $rcfile $dest
-    done
+    link_files `pwd`/zprezto/runcoms/zlogin ~/.zlogin
+    link_files `pwd`/zprezto/runcoms/zlogout ~/.zlogout
+    link_files `pwd`/zprezto/runcoms/zprofile ~/.zprofile
+    link_files `pwd`/zprezto/runcoms/zshenv ~/.zshenv
 
+    link_files `pwd`/pyenv ~/.pyenv
     link_files `pwd`/tmux.conf ~/.tmux.conf
     link_files `pwd`/vimrc ~/.vimrc
     link_files `pwd`/vim ~/.vim
-    link_files `pwd`/pyenv ~/.pyenv
+    link_files `pwd`/zshrc ~/.zshrc
+    link_files `pwd`/zpreztorc ~/.zpreztorc
 }
 
 setup_git_submodule
 install_dotfiles
-setup_pyenv
