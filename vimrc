@@ -76,7 +76,23 @@ call dein#add('Shougo/neosnippet')
 call dein#add('Shougo/neosnippet-snippets')
 call dein#add('tomasr/molokai')
 call dein#add('vim-scripts/EnhCommentify.vim')
-call dein#add('ervandew/supertab')
+"call dein#add('ervandew/supertab')
+
+"call dein#add('Shougo/ddc.vim')
+"call dein#add('vim-denops/denops.vim')
+"call dein#add('vim-denops/denops-helloworld.vim')
+"call dein#add('Shougo/pum.vim')
+"call dein#add('Shougo/ddc-around')
+"call dein#add('LumaKernel/ddc-file')
+"call dein#add('Shougo/ddc-matcher_head')
+"call dein#add('Shougo/ddc-sorter_rank')
+"call dein#add('Shougo/ddc-converter_remove_overlap')
+if !has('nvim')
+  call dein#add('rhysd/vim-healthcheck')
+endif
+
+call dein#add('mattn/vim-lsp-settings')
+call dein#add('prabirshrestha/vim-lsp')
 
 call dein#end()
 
@@ -115,6 +131,73 @@ let g:ctrlp_custom_ignore = {
   \ 'file': '\v\.(exe|so|dll)$',
   \ 'link': 'some_bad_symbolic_links',
   \ }
+
+""""
+" denops
+"""
+"let g:denops#debug = 1
+"let g:denops#trace = 1
+
+" default: ['-q', '--no-check', '--unstable', '-A']
+"let g:denops#server#deno_args = ['--log-level=debug', '-A']
+
+"""""
+" ddc
+"""""
+"call ddc#custom#patch_global('completionMenu', 'pum.vim')
+"call ddc#custom#patch_global('sources', [
+" \ 'around',
+" \ 'vim-lsp',
+" \ 'file'
+" \ ])
+"call ddc#custom#patch_global('sourceOptions', {
+" \ '_': {
+" \   'matchers': ['matcher_head'],
+" \   'sorters': ['sorter_rank'],
+" \   'converters': ['converter_remove_overlap'],
+" \ },
+" \ 'around': {'mark': 'Around'},
+" \ 'vim-lsp': {
+" \   'mark': 'LSP', 
+" \   'matchers': ['matcher_head'],
+" \   'forceCompletionPattern': '\.|:|->|"\w+/*'
+" \ },
+" \ 'file': {
+" \   'mark': 'file',
+" \   'isVolatile': v:true, 
+" \   'forceCompletionPattern': '\S/\S*'
+" \ }})
+
+
+" <TAB>: completion.
+"inoremap <silent><expr> <TAB>
+"\ ddc#map#pum_visible() ? '<C-n>' :
+"\ (col('.') <= 1 <Bar><Bar> getline('.')[col('.') - 2] =~# '\s') ?
+"\ '<TAB>' : ddc#map#manual_complete()
+
+" <S-TAB>: completion back.
+"inoremap <expr><S-TAB>  ddc#map#pum_visible() ? '<C-p>' : '<C-h>'
+
+"call ddc#enable()
+"inoremap <Tab> <Cmd>call pum#map#insert_relative(+1)<CR>
+"inoremap <S-Tab> <Cmd>call pum#map#insert_relative(-1)<CR>
+
+
+
+"""
+" vim-lsp
+""""
+
+" Enables a floating window of diagnostic error for the current line to status
+let g:lsp_diagnostics_float_cursor = 1
+if executable('pyls')
+  au User lsp_setup call lsp#register_server({
+  \ 'name': 'pyls',
+  \ 'cmd': {server_info->['pyls']},
+  \ 'whitelist': ['python'],
+  \ })
+endif
+
 
 """""""""""""""""""""
 " neocomplcache.vim
@@ -162,12 +245,12 @@ highlight Normal guifg=white guibg=black
 """""""""""""""""
 " Jedi
 """""""""""""""""
-let g:jedi#auto_initialization = 1
-let g:jedi#completions_command = "<Tab>"
-let g:jedi#popup_on_dot = 1
-let g:jedi#show_call_signatures = 1
-autocmd FileType python let b:did_ftplugin = 1
-autocmd FileType python setlocal omnifunc=jedi#completions
+"let g:jedi#auto_initialization = 1
+"let g:jedi#completions_command = "<Tab>"
+"let g:jedi#popup_on_dot = 1
+"let g:jedi#show_call_signatures = 1
+"autocmd FileType python let b:did_ftplugin = 1
+"autocmd FileType python setlocal omnifunc=jedi#completions
 
 
 """""""""""""""""""""""""""""""

@@ -9,6 +9,9 @@ export PYENV_ROOT=${PYENV_ROOT}
 export PATH=${PYENV_ROOT}/bin:$PATH
 eval "$(pyenv init --path)"
 
+export DENO_INSTALL=$HOME/.deno
+export PATH="$DENO_INSTALL/bin:$PATH"
+
 source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.

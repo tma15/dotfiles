@@ -6,14 +6,21 @@ success() {
 
 
 setup_git_submodule() {
-    git submodule update --init --recursive
+    git submodule update --init --recursive && \
     success "git submodule update --init --recursive"
 }
 
 
 link_files() {
-    ln -ns $1 $2
-    success "linked $1 to $2"
+    ln -ns $1 $2 && success \
+        "linked $1 to $2"
+}
+
+
+install_deno() {
+    # https://deno.land/
+    curl -fsSL https://deno.land/install.sh | sh -s -- v1.17.1 && \
+        success "installed deno"
 }
 
 
@@ -35,3 +42,7 @@ install_dotfiles() {
 
 setup_git_submodule
 install_dotfiles
+
+if [ ! -e $HOME/.deno/bin/deno ]; then
+    install_deno
+fi
