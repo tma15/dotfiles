@@ -71,6 +71,10 @@ call dein#add('kien/rainbow_parentheses.vim')
 call dein#add('nathanaelkane/vim-indent-guides')
 call dein#add('scrooloose/nerdtree')
 "call dein#add('Shougo/neocomplcache.vim')
+if !has('nvim')
+  call dein#add('roxma/nvim-yarp')
+  call dein#add('roxma/vim-hug-neovim-rpc')
+endif
 call dein#add('Shougo/neosnippet')
 call dein#add('Shougo/neosnippet-snippets')
 call dein#add('tomasr/molokai')
@@ -149,7 +153,8 @@ call ddc#custom#patch_global('completionMenu', 'pum.vim')
 call ddc#custom#patch_global('sources', [
  \ 'around',
  \ 'vim-lsp',
- \ 'file'
+ \ 'file',
+ \ 'neosnippet'
  \ ])
 call ddc#custom#patch_global('sourceOptions', {
  \ '_': {
@@ -158,6 +163,7 @@ call ddc#custom#patch_global('sourceOptions', {
  \   'converters': ['converter_remove_overlap'],
  \ },
  \ 'around': {'mark': 'Around'},
+ \ 'neosnippet': {'mark': 'Snippet'},
  \ 'vim-lsp': {
  \   'mark': 'LSP', 
  \   'matchers': ['matcher_head'],
