@@ -16,7 +16,6 @@ set laststatus=2
 set guioptions+=a
 
 set wildmenu
-inoremap <Tab> <C-X><C-F>
 
 " Wildmenu
 if has("wildmenu")
