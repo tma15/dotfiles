@@ -245,12 +245,12 @@ highlight Normal guifg=white guibg=black
 """""""""""""""""
 " Jedi
 """""""""""""""""
-let g:jedi#auto_initialization = 1
-let g:jedi#completions_command = "<Tab>"
-let g:jedi#popup_on_dot = 1
-let g:jedi#show_call_signatures = 1
-autocmd FileType python let b:did_ftplugin = 1
-autocmd FileType python setlocal omnifunc=jedi#completions
+"let g:jedi#auto_initialization = 1
+"let g:jedi#completions_command = "<Tab>"
+"let g:jedi#popup_on_dot = 1
+"let g:jedi#show_call_signatures = 1
+"autocmd FileType python let b:did_ftplugin = 1
+"autocmd FileType python setlocal omnifunc=jedi#completions
 
 
 """""""""""""""""""""""""""""""
