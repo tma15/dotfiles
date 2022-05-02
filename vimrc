@@ -61,32 +61,31 @@ call dein#begin(expand('~/.vim/dein'))
 
 call dein#add('Shougo/dein.vim')
 call dein#add('ctrlpvim/ctrlp.vim')
-call dein#add('davidhalter/jedi-vim')
-call dein#add('lambdalisue/vim-pyenv', {
-	\ 'depends' : ['davidhalter/jedi-vim'],
-	\ 'autoload' : {
-	\   'filetypes' : ['python'],
-	\ }})
+"call dein#add('davidhalter/jedi-vim')
+"call dein#add('lambdalisue/vim-pyenv', {
+"        \ 'depends' : ['davidhalter/jedi-vim'],
+"        \ 'autoload' : {
+"        \   'filetypes' : ['python'],
+"        \ }})
 call dein#add('gabrielelana/vim-markdown')
 call dein#add('kien/rainbow_parentheses.vim')
 call dein#add('nathanaelkane/vim-indent-guides')
 call dein#add('scrooloose/nerdtree')
-call dein#add('Shougo/neocomplcache.vim')
+"call dein#add('Shougo/neocomplcache.vim')
 call dein#add('Shougo/neosnippet')
 call dein#add('Shougo/neosnippet-snippets')
 call dein#add('tomasr/molokai')
 call dein#add('vim-scripts/EnhCommentify.vim')
-"call dein#add('ervandew/supertab')
 
-"call dein#add('Shougo/ddc.vim')
-"call dein#add('vim-denops/denops.vim')
-"call dein#add('vim-denops/denops-helloworld.vim')
-"call dein#add('Shougo/pum.vim')
-"call dein#add('Shougo/ddc-around')
-"call dein#add('LumaKernel/ddc-file')
-"call dein#add('Shougo/ddc-matcher_head')
-"call dein#add('Shougo/ddc-sorter_rank')
-"call dein#add('Shougo/ddc-converter_remove_overlap')
+call dein#add('Shougo/ddc.vim')
+call dein#add('vim-denops/denops.vim')
+call dein#add('Shougo/pum.vim')
+call dein#add('Shougo/ddc-around')
+call dein#add('LumaKernel/ddc-file')
+call dein#add('shun/ddc-vim-lsp')
+call dein#add('Shougo/ddc-matcher_head')
+call dein#add('Shougo/ddc-sorter_rank')
+call dein#add('Shougo/ddc-converter_remove_overlap')
 if !has('nvim')
   call dein#add('rhysd/vim-healthcheck')
 endif
@@ -135,54 +134,7 @@ let g:ctrlp_custom_ignore = {
 """"
 " denops
 """
-"let g:denops#debug = 1
-"let g:denops#trace = 1
-
-" default: ['-q', '--no-check', '--unstable', '-A']
-"let g:denops#server#deno_args = ['--log-level=debug', '-A']
-
-"""""
-" ddc
-"""""
-"call ddc#custom#patch_global('completionMenu', 'pum.vim')
-"call ddc#custom#patch_global('sources', [
-" \ 'around',
-" \ 'vim-lsp',
-" \ 'file'
-" \ ])
-"call ddc#custom#patch_global('sourceOptions', {
-" \ '_': {
-" \   'matchers': ['matcher_head'],
-" \   'sorters': ['sorter_rank'],
-" \   'converters': ['converter_remove_overlap'],
-" \ },
-" \ 'around': {'mark': 'Around'},
-" \ 'vim-lsp': {
-" \   'mark': 'LSP', 
-" \   'matchers': ['matcher_head'],
-" \   'forceCompletionPattern': '\.|:|->|"\w+/*'
-" \ },
-" \ 'file': {
-" \   'mark': 'file',
-" \   'isVolatile': v:true, 
-" \   'forceCompletionPattern': '\S/\S*'
-" \ }})
-
-
-" <TAB>: completion.
-"inoremap <silent><expr> <TAB>
-"\ ddc#map#pum_visible() ? '<C-n>' :
-"\ (col('.') <= 1 <Bar><Bar> getline('.')[col('.') - 2] =~# '\s') ?
-"\ '<TAB>' : ddc#map#manual_complete()
-
-" <S-TAB>: completion back.
-"inoremap <expr><S-TAB>  ddc#map#pum_visible() ? '<C-p>' : '<C-h>'
-
-"call ddc#enable()
-"inoremap <Tab> <Cmd>call pum#map#insert_relative(+1)<CR>
-"inoremap <S-Tab> <Cmd>call pum#map#insert_relative(-1)<CR>
-
-
+let g:denops#debug = 0
 
 """
 " vim-lsp
@@ -190,45 +142,75 @@ let g:ctrlp_custom_ignore = {
 
 " Enables a floating window of diagnostic error for the current line to status
 let g:lsp_diagnostics_float_cursor = 1
-if executable('pyls')
-  au User lsp_setup call lsp#register_server({
-  \ 'name': 'pyls',
-  \ 'cmd': {server_info->['pyls']},
-  \ 'whitelist': ['python'],
-  \ })
-endif
+
+"""""
+" ddc
+"""""
+call ddc#custom#patch_global('completionMenu', 'pum.vim')
+call ddc#custom#patch_global('sources', [
+ \ 'around',
+ \ 'vim-lsp',
+ \ 'file'
+ \ ])
+call ddc#custom#patch_global('sourceOptions', {
+ \ '_': {
+ \   'matchers': ['matcher_head'],
+ \   'sorters': ['sorter_rank'],
+ \   'converters': ['converter_remove_overlap'],
+ \ },
+ \ 'around': {'mark': 'Around'},
+ \ 'vim-lsp': {
+ \   'mark': 'LSP', 
+ \   'matchers': ['matcher_head'],
+ \   'forceCompletionPattern': '\.|:|->|"\w+/*'
+ \ },
+ \ 'file': {
+ \   'mark': 'file',
+ \   'isVolatile': v:true, 
+ \   'forceCompletionPattern': '\S/\S*'
+ \ }})
+
+
+" <TAB>: completion.
+inoremap <silent><expr> <TAB>
+\ ddc#map#pum_visible() ? '<C-n>' :
+\ (col('.') <= 1 <Bar><Bar> getline('.')[col('.') - 2] =~# '\s') ?
+\ '<TAB>' : ddc#map#manual_complete()
+
+" <S-TAB>: completion back.
+inoremap <expr><S-TAB>  ddc#map#pum_visible() ? '<C-p>' : '<C-h>'
+
+call ddc#enable()
+inoremap <Tab> <Cmd>call pum#map#insert_relative(+1)<CR>
+inoremap <S-Tab> <Cmd>call pum#map#insert_relative(-1)<CR>
 
 
 """""""""""""""""""""
 " neocomplcache.vim
 """""""""""""""""""""
-"" Disable AutoComplPop.
-let g:acp_enableAtStartup = 0
-" Use neocomplcache.
-let g:neocomplcache_enable_at_startup = 1
-" " Use smartcase.
-let g:neocomplcache_enable_smart_case = 1
-" " Set minimum syntax keyword length.
-let g:neocomplcache_min_syntax_length = 3
-let g:neocomplcache_lock_buffer_name_pattern = '\*ku\*'
+"let g:acp_enableAtStartup = 0
+"let g:neocomplcache_enable_at_startup = 1
+"let g:neocomplcache_enable_smart_case = 1
+"let g:neocomplcache_min_syntax_length = 3
+"let g:neocomplcache_lock_buffer_name_pattern = '\*ku\*'
 
 " Plugin key-mappings.
-inoremap <expr><C-g>     neocomplcache#undo_completion()
-inoremap <expr><C-l>     neocomplcache#complete_common_string()
+"inoremap <expr><C-g>     neocomplcache#undo_completion()
+"inoremap <expr><C-l>     neocomplcache#complete_common_string()
 
 " Recommended key-mappings.
 " <CR>: close popup and save indent.
-inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
-function! s:my_cr_function()
-  return neocomplcache#smart_close_popup() . "\<CR>"
-endfunction
+"inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
+"function! s:my_cr_function()
+"  return neocomplcache#smart_close_popup() . "\<CR>"
+"endfunction
 " <TAB>: completion.
-inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
+"inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
 " <C-h>, <BS>: close popup and delete backword char.
-inoremap <expr><C-h> neocomplcache#smart_close_popup()."\<C-h>"
-inoremap <expr><BS> neocomplcache#smart_close_popup()."\<C-h>"
-inoremap <expr><C-y>  neocomplcache#close_popup()
-inoremap <expr><C-e>  neocomplcache#cancel_popup()
+"inoremap <expr><C-h> neocomplcache#smart_close_popup()."\<C-h>"
+"inoremap <expr><BS> neocomplcache#smart_close_popup()."\<C-h>"
+"inoremap <expr><C-y>  neocomplcache#close_popup()
+"inoremap <expr><C-e>  neocomplcache#cancel_popup()
 
 """""""""""""""""""""
 " Vim indent guide
