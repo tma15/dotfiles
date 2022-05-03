@@ -60,17 +60,10 @@ call dein#begin(expand('~/.vim/dein'))
 
 call dein#add('Shougo/dein.vim')
 call dein#add('ctrlpvim/ctrlp.vim')
-"call dein#add('davidhalter/jedi-vim')
-"call dein#add('lambdalisue/vim-pyenv', {
-"        \ 'depends' : ['davidhalter/jedi-vim'],
-"        \ 'autoload' : {
-"        \   'filetypes' : ['python'],
-"        \ }})
 call dein#add('gabrielelana/vim-markdown')
 call dein#add('kien/rainbow_parentheses.vim')
 call dein#add('nathanaelkane/vim-indent-guides')
 call dein#add('scrooloose/nerdtree')
-"call dein#add('Shougo/neocomplcache.vim')
 if !has('nvim')
   call dein#add('roxma/nvim-yarp')
   call dein#add('roxma/vim-hug-neovim-rpc')
@@ -95,6 +88,8 @@ endif
 
 call dein#add('mattn/vim-lsp-settings')
 call dein#add('prabirshrestha/vim-lsp')
+
+call dein#add('psf/black')
 
 call dein#end()
 
@@ -145,6 +140,21 @@ let g:denops#debug = 0
 
 " Enables a floating window of diagnostic error for the current line to status
 let g:lsp_diagnostics_float_cursor = 1
+" Go to definition.
+nnoremap <C-]> :<C-u>LspDefinition<CR>
+" Gets the hover information and displays it in the preview-window
+nnoremap K :<C-u>LspHover<CR>
+
+
+let g:lsp_settings = {
+\   'pylsp-all': {
+\     'workspace_config': {
+\       'pylsp': {
+\         'configurationSources': ['flake8']
+\       }
+\     }
+\   },
+\}
 
 """""
 " ddc
@@ -191,33 +201,6 @@ inoremap <S-Tab> <Cmd>call pum#map#insert_relative(-1)<CR>
 
 
 """""""""""""""""""""
-" neocomplcache.vim
-"""""""""""""""""""""
-"let g:acp_enableAtStartup = 0
-"let g:neocomplcache_enable_at_startup = 1
-"let g:neocomplcache_enable_smart_case = 1
-"let g:neocomplcache_min_syntax_length = 3
-"let g:neocomplcache_lock_buffer_name_pattern = '\*ku\*'
-
-" Plugin key-mappings.
-"inoremap <expr><C-g>     neocomplcache#undo_completion()
-"inoremap <expr><C-l>     neocomplcache#complete_common_string()
-
-" Recommended key-mappings.
-" <CR>: close popup and save indent.
-"inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
-"function! s:my_cr_function()
-"  return neocomplcache#smart_close_popup() . "\<CR>"
-"endfunction
-" <TAB>: completion.
-"inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
-" <C-h>, <BS>: close popup and delete backword char.
-"inoremap <expr><C-h> neocomplcache#smart_close_popup()."\<C-h>"
-"inoremap <expr><BS> neocomplcache#smart_close_popup()."\<C-h>"
-"inoremap <expr><C-y>  neocomplcache#close_popup()
-"inoremap <expr><C-e>  neocomplcache#cancel_popup()
-
-"""""""""""""""""""""
 " Vim indent guide
 """""""""""""""""""""
 " hilight indent
@@ -228,17 +211,6 @@ let g:indent_guides_auto_colors = 0
 autocmd VimEnter,ColorScheme * :hi IndentGuidesOdd ctermbg=darkgray
 autocmd VimEnter,ColorScheme * :hi IndentGuidesEven ctermbg=lightgreen
 highlight Normal guifg=white guibg=black
-
-"""""""""""""""""
-" Jedi
-"""""""""""""""""
-"let g:jedi#auto_initialization = 1
-"let g:jedi#completions_command = "<Tab>"
-"let g:jedi#popup_on_dot = 1
-"let g:jedi#show_call_signatures = 1
-"autocmd FileType python let b:did_ftplugin = 1
-"autocmd FileType python setlocal omnifunc=jedi#completions
-
 
 """""""""""""""""""""""""""""""
 " neosnippet
@@ -293,3 +265,12 @@ au VimEnter * RainbowParenthesesToggle
 au Syntax * RainbowParenthesesLoadRound
 au Syntax * RainbowParenthesesLoadSquare
 au Syntax * RainbowParenthesesLoadBraces
+
+
+""""
+" Black
+""""
+augroup black_on_save
+  autocmd!
+  autocmd BufWritePre *.py Black
+augroup end
