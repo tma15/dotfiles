@@ -150,7 +150,13 @@ let g:lsp_settings = {
 \   'pylsp-all': {
 \     'workspace_config': {
 \       'pylsp': {
-\         'configurationSources': ['flake8']
+\         'configurationSources': ['flake8'],
+\         'plugins': {
+\           'pylsp_mypy': {
+\             'enabled': 1,
+\             'live_mode': 0,
+\           },
+\         }
 \       }
 \     }
 \   },
