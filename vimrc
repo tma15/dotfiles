@@ -33,7 +33,7 @@ autocmd FileType python setl autoindent
 autocmd FileType python setl smartindent cinwords=if,elif,else,for,while,try,except,finally,def,class
 autocmd FileType python,md,rst,sh,zsh setl tabstop=8 expandtab shiftwidth=4 softtabstop=4
 autocmd FileType html setl tabstop=8 expandtab shiftwidth=2 softtabstop=2
-autocmd FileType cpp setl tabstop=4 expandtab shiftwidth=2 softtabstop=2
+autocmd FileType cpp,cc setl tabstop=4 expandtab shiftwidth=2 softtabstop=2
 autocmd FileType yaml setl tabstop=2 expandtab shiftwidth=2 softtabstop=2 noet
 
 set nocompatible
@@ -90,6 +90,7 @@ call dein#add('mattn/vim-lsp-settings')
 call dein#add('prabirshrestha/vim-lsp')
 
 call dein#add('psf/black')
+call dein#add('tpope/vim-commentary')
 
 call dein#end()
 
