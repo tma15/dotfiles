@@ -80,6 +80,7 @@ call dein#add('Shougo/ddc-around')
 call dein#add('LumaKernel/ddc-file')
 call dein#add('shun/ddc-vim-lsp')
 call dein#add('Shougo/ddc-matcher_head')
+call dein#add('Shougo/ddc-ui-native')
 call dein#add('Shougo/ddc-sorter_rank')
 call dein#add('Shougo/ddc-converter_remove_overlap')
 if !has('nvim')
@@ -166,7 +167,8 @@ let g:lsp_settings = {
 """""
 " ddc
 """""
-call ddc#custom#patch_global('completionMenu', 'pum.vim')
+call ddc#custom#patch_global('ui', 'pum.vim')
+call ddc#custom#patch_global('ui', 'native')
 call ddc#custom#patch_global('sources', [
  \ 'around',
  \ 'vim-lsp',
