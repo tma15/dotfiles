@@ -19,7 +19,7 @@ link_files() {
 
 install_deno() {
     # https://deno.land/
-    curl -fsSL https://deno.land/install.sh | sh -s -- v1.32.5 && \
+    curl -fsSL https://deno.land/install.sh | sh -s -- v1.43.1 && \
         success "installed deno"
 }
 
