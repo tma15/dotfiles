@@ -12,8 +12,9 @@ setup_git_submodule() {
 
 
 link_files() {
-    ln -ns $1 $2 && success \
-        "linked $1 to $2"
+    if [ ! -e $2 ]; then
+        ln -ns $1 $2 && success "linked $1 to $2"
+    fi
 }
 
 
