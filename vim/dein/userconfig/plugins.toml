@@ -70,3 +70,8 @@
 [[plugins]]
   repo = 'tpope/vim-commentary'
 
+[[plugins]]
+repo = 'halkn/lightline-lsp'
+
+[[plugins]]
+repo = 'itchyny/lightline.vim'

@@ -132,9 +132,22 @@ let g:lsp_settings = {
 \             'enabled': 1,
 \             'live_mode': 0,
 \           },
+\           'pycodestyle': {
+\             'enabled': 0,
+\           },
+\           'flake8': {
+\             'enabled': 1,
+\             'maxLineLength': 88,
+\           },
 \           'black': {
 \             'enabled': 1,
 \             'line_length': 88,
+\           },
+\           'yapf': {
+\             'enabled': 0,
+\           },
+\           'autopep8': {
+\             'enabled': 0,
 \           },
 \           'isort': {
 \             'enabled': 1,
@@ -176,14 +189,26 @@ call ddc#custom#patch_global('sourceOptions', {
  \ }})
 
 
-" <TAB>: completion.
-"inoremap <silent><expr> <TAB>
-"\ ddc#map#pum_visible() ? '<C-n>' :
-"\ (col('.') <= 1 <Bar><Bar> getline('.')[col('.') - 2] =~# '\s') ?
-"\ '<TAB>' : ddc#map#manual_complete()
+let g:lightline = {
+\ 'active': {
+\   'right': [ [ 'lsp_errors', 'lsp_warnings', 'lsp_ok', 'lineinfo' ],
+\              [ 'percent' ],
+\              [ 'fileformat', 'fileencoding', 'filetype' ] ]
+\ },
+\ 'component_expand': {
+\   'lsp_warnings': 'lightline_lsp#warnings',
+\   'lsp_errors':   'lightline_lsp#errors',
+\   'lsp_ok':       'lightline_lsp#ok',
+\ },
+\ 'component_type': {
+\   'lsp_warnings': 'warning',
+\   'lsp_errors':   'error',
+\   'lsp_ok':       'middle',
+\ },
+\ }
 
-" <S-TAB>: completion back.
-"inoremap <expr><S-TAB>  ddc#map#pum_visible() ? '<C-p>' : '<C-h>'
+let g:lsp_diagnostics_signs_enabled = 0
+highlight link LspWarningHighlight Error
 
 call ddc#enable()
 inoremap <Tab> <Cmd>call pum#map#insert_relative(+1)<CR>
