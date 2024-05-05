@@ -111,8 +111,13 @@ let g:denops#debug = 0
 """"
 " Enables a floating window of diagnostic error for the current line to status
 let g:lsp_diagnostics_float_cursor = 1
+
+" Disables virtual text to be shown next to diagnostic errors.
+let g:lsp_diagnostics_virtual_text_enabled = 0
+
 " Go to definition.
 nnoremap <C-]> :<C-u>LspDefinition<CR>
+
 " Gets the hover information and displays it in the preview-window
 nnoremap K :<C-u>LspHover<CR>
 
