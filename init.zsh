@@ -38,6 +38,9 @@ install_dotfiles() {
     link_files `pwd`/vim ~/.vim
     link_files `pwd`/zshrc ~/.zshrc
     link_files `pwd`/zpreztorc ~/.zpreztorc
+
+    ln -s ~/work/dotfiles/vscode/settings.json ~/Library/Application\ Support/Code/User/settings.json
+    ln -s ~/work/dotfiles/vscode/keybindings.json ~/Library/Application\ Support/Code/User/keybindings.json
 }
 
 setup_git_submodule
