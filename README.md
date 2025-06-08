@@ -14,13 +14,13 @@ zsh init.zsh
 
 ## Features
 ### Vim
-My configuration of vim manages plugins via [dein](https://github.com/Shougo/dein.vim).
-For the first use of vim in my configuration, dein installs plugins, which are written in `vimrc`.
+The configuration of vim manages plugins via [dein](https://github.com/Shougo/dein.vim).
+For the first use of vim in the configuration, dein installs plugins, which are defined in `vim/dein/userconfig/plugins.toml` and `vim/dein/userconfig/plugins_lazy.toml`.
 
 Plugins are modern ones such as [ddc](https://github.com/Shougo/ddc.vim), [vim-lsp](https://github.com/prabirshrestha/vim-lsp) for completion.
 Because ddc depends on [Deno](https://deno.land/), it will be installed by `init.zsh`.
 
-Dein in my configuration also installs plugins such as [black](https://github.com/psf/black) and [vim-indent-guide](https://github.com/thaerkh/vim-indentguides) for assisting writing of Python sources.
+Dein in the configuration also installs plugins such as [black](https://github.com/psf/black) and [vim-indent-guide](https://github.com/thaerkh/vim-indentguides) for assisting writing of Python sources.
 In addition, a [flake8](https://flake8.pycqa.org/en/latest/)-based linter is enabled by `vim-lsp`.
 
 ### Zsh

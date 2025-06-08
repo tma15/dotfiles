@@ -1,3 +1,4 @@
 .*.swp
-vim/dein
+vim/dein/repos
+vim/dein/.cache
 vim/black

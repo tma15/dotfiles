@@ -41,8 +41,8 @@ set nocompatible
 filetype plugin indent off                   " (1)
 
 
-let s:dein_dir = expand('~/.cache/dein')
-let s:dein_repo_dir = s:dein_dir . '/repos/github.com/Shougo/dein.vim'
+let s:dein_path = expand('~/.vim/dein')
+let s:dein_repo_dir = s:dein_path . '/repos/github.com/Shougo/dein.vim'
 
 if &runtimepath !~# '/dein.vim'
   if !isdirectory(s:dein_repo_dir)
@@ -56,44 +56,19 @@ if &compatible
 endif
 set runtimepath+=~/.vim/dein/repos/github.com/Shougo/dein.vim
 
-call dein#begin(expand('~/.vim/dein'))
-
-call dein#add('Shougo/dein.vim')
-call dein#add('ctrlpvim/ctrlp.vim')
-call dein#add('gabrielelana/vim-markdown')
-call dein#add('kien/rainbow_parentheses.vim')
-call dein#add('nathanaelkane/vim-indent-guides')
-call dein#add('scrooloose/nerdtree')
-if !has('nvim')
-  call dein#add('roxma/nvim-yarp')
-  call dein#add('roxma/vim-hug-neovim-rpc')
+if dein#load_state(s:dein_path)
+  call dein#begin(s:dein_path)
+  
+  let g:config_dir  = expand('~/.vim/dein/userconfig')
+  let s:toml        = g:config_dir . '/plugins.toml'
+  let s:lazy_toml   = g:config_dir . '/plugins_lazy.toml'
+  
+  call dein#load_toml(s:toml,      {'lazy': 0})
+  call dein#load_toml(s:lazy_toml, {'lazy': 1})
+  
+  call dein#end()
+  call dein#save_state()
 endif
-call dein#add('Shougo/neosnippet')
-call dein#add('Shougo/neosnippet-snippets')
-call dein#add('tomasr/molokai')
-call dein#add('vim-scripts/EnhCommentify.vim')
-
-call dein#add('Shougo/ddc.vim')
-call dein#add('vim-denops/denops.vim')
-call dein#add('Shougo/pum.vim')
-call dein#add('Shougo/ddc-around')
-call dein#add('LumaKernel/ddc-file')
-call dein#add('shun/ddc-vim-lsp')
-call dein#add('Shougo/ddc-matcher_head')
-call dein#add('Shougo/ddc-ui-native')
-call dein#add('Shougo/ddc-sorter_rank')
-call dein#add('Shougo/ddc-converter_remove_overlap')
-if !has('nvim')
-  call dein#add('rhysd/vim-healthcheck')
-endif
-
-call dein#add('mattn/vim-lsp-settings')
-call dein#add('prabirshrestha/vim-lsp')
-
-call dein#add('psf/black')
-call dein#add('tpope/vim-commentary')
-
-call dein#end()
 
 filetype plugin indent on
 
@@ -109,11 +84,6 @@ filetype plugin indent on     " (5)
 " colorscheme
 """""""""""""""""
 colorscheme molokai
-
-"""""""""""""""""""""
-" NERDTree
-"""""""""""""""""""""
-"nnoremap <silent><C-w> :NERDTreeToggle<CR>
 
 """""""""""""""""""""
 " ctrlp
@@ -139,11 +109,15 @@ let g:denops#debug = 0
 """
 " vim-lsp
 """"
-
 " Enables a floating window of diagnostic error for the current line to status
 let g:lsp_diagnostics_float_cursor = 1
+
+" Disables virtual text to be shown next to diagnostic errors.
+let g:lsp_diagnostics_virtual_text_enabled = 0
+
 " Go to definition.
 nnoremap <C-]> :<C-u>LspDefinition<CR>
+
 " Gets the hover information and displays it in the preview-window
 nnoremap K :<C-u>LspHover<CR>
 
@@ -157,6 +131,26 @@ let g:lsp_settings = {
 \           'pylsp_mypy': {
 \             'enabled': 1,
 \             'live_mode': 0,
+\           },
+\           'pycodestyle': {
+\             'enabled': 0,
+\           },
+\           'flake8': {
+\             'enabled': 1,
+\             'maxLineLength': 88,
+\           },
+\           'black': {
+\             'enabled': 1,
+\             'line_length': 88,
+\           },
+\           'yapf': {
+\             'enabled': 0,
+\           },
+\           'autopep8': {
+\             'enabled': 0,
+\           },
+\           'isort': {
+\             'enabled': 1,
 \           },
 \         }
 \       }
@@ -195,14 +189,26 @@ call ddc#custom#patch_global('sourceOptions', {
  \ }})
 
 
-" <TAB>: completion.
-"inoremap <silent><expr> <TAB>
-"\ ddc#map#pum_visible() ? '<C-n>' :
-"\ (col('.') <= 1 <Bar><Bar> getline('.')[col('.') - 2] =~# '\s') ?
-"\ '<TAB>' : ddc#map#manual_complete()
+let g:lightline = {
+\ 'active': {
+\   'right': [ [ 'lsp_errors', 'lsp_warnings', 'lsp_ok', 'lineinfo' ],
+\              [ 'percent' ],
+\              [ 'fileformat', 'fileencoding', 'filetype' ] ]
+\ },
+\ 'component_expand': {
+\   'lsp_warnings': 'lightline_lsp#warnings',
+\   'lsp_errors':   'lightline_lsp#errors',
+\   'lsp_ok':       'lightline_lsp#ok',
+\ },
+\ 'component_type': {
+\   'lsp_warnings': 'warning',
+\   'lsp_errors':   'error',
+\   'lsp_ok':       'middle',
+\ },
+\ }
 
-" <S-TAB>: completion back.
-"inoremap <expr><S-TAB>  ddc#map#pum_visible() ? '<C-p>' : '<C-h>'
+let g:lsp_diagnostics_signs_enabled = 0
+highlight link LspWarningHighlight Error
 
 call ddc#enable()
 inoremap <Tab> <Cmd>call pum#map#insert_relative(+1)<CR>
@@ -276,10 +282,7 @@ au Syntax * RainbowParenthesesLoadSquare
 au Syntax * RainbowParenthesesLoadBraces
 
 
-""""
-" Black
-""""
-" augroup black_on_save
-"   autocmd!
-"   autocmd BufWritePre *.py Black
-" augroup end
+augroup LspAutoFormatting
+  autocmd!
+  autocmd BufWritePre *.py LspDocumentFormatSync
+augroup END
