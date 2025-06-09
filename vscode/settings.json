@@ -33,7 +33,7 @@
   "editor.detectIndentation": false,
   "editor.wordWrap": "on",
   "editor.minimap.enabled": false,
-  "editor.cursorSmoothCaretAnimation": true,
+  "editor.cursorSmoothCaretAnimation": "on",
   "editor.cursorBlinking": "phase",
   "editor.smoothScrolling": true,
   // ファイル保存
@@ -54,5 +54,25 @@
   "workbench.colorTheme": "Gruvbox Dark Medium",
   "workbench.iconTheme": "vscode-icons",
   "workbench.editor.enablePreview": false,
-  "breadcrumbs.enabled": true
+  "breadcrumbs.enabled": true,
+  // 文字列リテラル内でも補完を出す
+  "editor.quickSuggestions": {
+    "other": true,
+    "comments": false,
+    "strings": true
+  },
+  // Tabキーで補完候補を確定
+  "editor.tabCompletion": "on",
+  // シェルスクリプトとして認識させる
+  "files.associations": {
+    "*.sh": "shellscript"
+  },
+  // Path Intellisense の細かい動作設定例
+  "path-intellisense.autoSlashAfterDirectory": true, // ディレクトリ確定後に自動でスラッシュ
+  "path-intellisense.showHiddenFiles": false, // ドットファイルを非表示
+  // 拡張子を指定して候補に含めたい場合
+  "path-intellisense.extensionOnImport": [
+    ".sh",
+    ".txt"
+  ]
 }
