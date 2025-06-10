@@ -75,4 +75,10 @@
     ".sh",
     ".txt"
   ]
+  "[python]": {
+    "editor.tabSize": 4,
+    "editor.insertSpaces": true,
+    // detectIndentation を無効にするとファイル中の既存インデントに引きずられません
+    "editor.detectIndentation": false
+}
 }
