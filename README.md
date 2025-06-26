@@ -1,9 +1,10 @@
 # Dotfiles
-dotfiles have configuration files of following tools:
+The dotfiles repository contains configuration files for the following tools:
 
 - tmux
 - vim
 - zsh
+- VSCode
 
 ## Install
 ```sh
@@ -14,23 +15,25 @@ zsh init.zsh
 
 ## Features
 ### Vim
-The configuration of vim manages plugins via [dein](https://github.com/Shougo/dein.vim).
-For the first use of vim in the configuration, dein installs plugins, which are defined in `vim/dein/userconfig/plugins.toml` and `vim/dein/userconfig/plugins_lazy.toml`.
+The vim configuration manages plugins via [dein](https://github.com/Shougo/dein.vim).
+On the first launch, dein installs plugins defined in `vim/dein/userconfig/plugins.toml` and `vim/dein/userconfig/plugins_lazy.toml`.
 
-Plugins are modern ones such as [ddc](https://github.com/Shougo/ddc.vim), [vim-lsp](https://github.com/prabirshrestha/vim-lsp) for completion.
-Because ddc depends on [Deno](https://deno.land/), it will be installed by `init.zsh`.
+Modern plugins such as [ddc](https://github.com/Shougo/ddc.vim) and [vim-lsp](https://github.com/prabirshrestha/vim-lsp) are included for code completion.
+Since ddc depends on [Deno](https://deno.land/), it will be installed by `init.zsh`.
 
-Dein in the configuration also installs plugins such as [black](https://github.com/psf/black) and [vim-indent-guide](https://github.com/thaerkh/vim-indentguides) for assisting writing of Python sources.
-In addition, a [flake8](https://flake8.pycqa.org/en/latest/)-based linter is enabled by `vim-lsp`.
+Dein also installs plugins like [black](https://github.com/psf/black) and [vim-indent-guide](https://github.com/thaerkh/vim-indentguides) to assist with Python development.
+Additionally, a [flake8](https://flake8.pycqa.org/en/latest/)-based linter is enabled via `vim-lsp`.
 
 ### Zsh
-My configuration of zsh depends on [prezto](https://github.com/sorin-ionescu/prezto).
-Main configuration based on prezto is written in `zpreztorc`.
+The zsh configuration is based on [prezto](https://github.com/sorin-ionescu/prezto), with the main settings in `zpreztorc`.
 
-Because Python environment is built by [pyenv](https://github.com/pyenv/pyenv), its configuration is written in `zshrc`.
+The Python environment is managed by [pyenv](https://github.com/pyenv/pyenv), with its configuration in `zshrc`.
 
 ### Tmux
-Whenever opening a terminal, tmux will be automatically started.
+tmux is automatically started whenever a terminal is opened.
+
+### VSCode
+VSCode configuration files are also included. The `vscode/` directory contains editor settings and recommended extensions, allowing you to quickly set up a comfortable development environment in VSCode.
 
 ## Author
 Takuya Makino

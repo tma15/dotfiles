@@ -33,7 +33,7 @@
   "editor.detectIndentation": false,
   "editor.wordWrap": "on",
   "editor.minimap.enabled": false,
-  "editor.cursorSmoothCaretAnimation": true,
+  "editor.cursorSmoothCaretAnimation": "on",
   "editor.cursorBlinking": "phase",
   "editor.smoothScrolling": true,
   // ファイル保存
@@ -54,5 +54,8 @@
   "workbench.colorTheme": "Gruvbox Dark Medium",
   "workbench.iconTheme": "vscode-icons",
   "workbench.editor.enablePreview": false,
-  "breadcrumbs.enabled": true
+  "breadcrumbs.enabled": true,
+  "workbench.editorAssociations": {
+    "*.ipynb": "jupyter.notebook.ipynb"
+  }
 }
