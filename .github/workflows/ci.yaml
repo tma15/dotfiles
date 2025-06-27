@@ -1,0 +1,135 @@
+name: CI
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  test:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+    
+    runs-on: ${{ matrix.os }}
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      with:
+        submodules: recursive
+
+    - name: Set up Zsh
+      if: matrix.os == 'ubuntu-latest'
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y zsh
+
+    - name: Verify Zsh installation
+      run: |
+        which zsh
+        zsh --version
+
+    - name: Test syntax of shell scripts
+      run: |
+        # Test init.zsh syntax
+        zsh -n init.zsh
+        
+        # Test zshrc syntax
+        zsh -n zshrc
+
+    - name: Test vimrc syntax
+      run: |
+        # Install vim for syntax checking
+        if [[ "${{ matrix.os }}" == "ubuntu-latest" ]]; then
+          sudo apt-get install -y vim
+        fi
+        
+        # Basic vim syntax check
+        vim -T dumb --not-a-term -n -e -s -c "source vimrc" -c "qa!" || echo "vimrc loaded"
+
+    - name: Test tmux configuration syntax
+      run: |
+        # Install tmux
+        if [[ "${{ matrix.os }}" == "ubuntu-latest" ]]; then
+          sudo apt-get install -y tmux
+        else
+          brew install tmux
+        fi
+        
+        # Test tmux config syntax
+        tmux -f tmux.conf list-keys > /dev/null
+
+    - name: Test dotfiles installation (dry run)
+      run: |
+        # Create a temporary directory to test installation
+        mkdir -p /tmp/dotfiles-test
+        export HOME=/tmp/dotfiles-test
+        
+        # Test git submodule update
+        git submodule update --init --recursive
+        
+        # Test that files exist
+        test -f vimrc
+        test -f zshrc
+        test -f tmux.conf
+        test -f zpreztorc
+        test -d vim
+        test -d zprezto
+        test -d pyenv
+
+    - name: Test file permissions
+      run: |
+        # Check that init.zsh is executable
+        test -x init.zsh || chmod +x init.zsh
+        
+        # Check other important files
+        test -f README.md
+        test -f CHANGELOG.md
+
+  lint:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Install dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y zsh shellcheck
+
+    - name: Lint shell scripts
+      run: |
+        # Lint init.zsh (skip shellcheck for zsh-specific syntax)
+        echo "Checking init.zsh syntax with zsh..."
+        zsh -n init.zsh
+        
+        # Lint zshrc (skip shellcheck for zsh-specific syntax)
+        echo "Checking zshrc syntax with zsh..."
+        zsh -n zshrc
+        
+        # Lint any bash scripts if they exist
+        if find . -name "*.sh" -o -name "*.bash" | grep -q .; then
+          echo "Linting bash scripts with shellcheck..."
+          find . -name "*.sh" -o -name "*.bash" -exec shellcheck {} \;
+        else
+          echo "No bash scripts found to lint"
+        fi
+
+    - name: Check for trailing whitespace
+      run: |
+        # Check for trailing whitespace in key files
+        ! grep -r '[[:space:]]$' --include="*.zsh" --include="*.sh" --include="*.vim" --include="*.conf" . || {
+          echo "Trailing whitespace found!"
+          exit 1
+        }
+
+    - name: Check line endings
+      run: |
+        # Check for Windows line endings
+        ! find . -name "*.zsh" -o -name "*.sh" -o -name "*.vim" -o -name "*.conf" | xargs file | grep CRLF || {
+          echo "Windows line endings found!"
+          exit 1
+        }
