@@ -97,7 +97,7 @@ jobs:
         echo "### GitHub Actions Version Check" >> $GITHUB_STEP_SUMMARY
         
         # Check for outdated actions
-        grep -r "uses:" .github/workflows/ | grep -v "v4\|v5\|v3\|master\|main" | while read line; do
+        grep -r "uses:" .github/workflows/ | grep -vE "v[0-9]+(\.[0-9]+)*\|master\|main" | while read line; do
           echo "⚠️ Potentially outdated action: $line" >> $GITHUB_STEP_SUMMARY || true
         done
         
