@@ -4,7 +4,7 @@ The dotfiles repository contains configuration files for the following tools:
 - tmux
 - vim
 - zsh
-- VSCode
+- VS Code
 
 ## Install
 ```sh
@@ -32,8 +32,8 @@ The Python environment is managed by [pyenv](https://github.com/pyenv/pyenv), wi
 ### Tmux
 tmux is automatically started whenever a terminal is opened.
 
-### VSCode
-VSCode configuration files are also included. The `vscode/` directory contains editor settings and recommended extensions, allowing you to quickly set up a comfortable development environment in VSCode.
+### VS Code
+VS Code configuration files are also included. The `vscode/` directory contains editor settings and recommended extensions, allowing you to quickly set up a comfortable development environment in VS Code.
 
 ## Author
 Takuya Makino
