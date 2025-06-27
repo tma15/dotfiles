@@ -14,11 +14,20 @@ The dotfiles repository contains configuration files for the following tools:
 - VS Code
 
 ## Install
+
+### Requirements
+- macOS or Linux
+- Git
+- Zsh (will be configured automatically)
+
+### Installation
 ```sh
 git clone https://github.com/tma15/dotfiles.git
 cd dotfiles
 zsh init.zsh
 ```
+
+**Note**: The installation script will automatically install Deno and configure symbolic links.
 
 ## Features
 ### Vim
@@ -79,6 +88,37 @@ git push
 The repository includes GitHub Actions workflows:
 - **CI** (`ci.yaml`): Tests syntax and installation on Ubuntu/macOS
 - **tagpr** (`tagpr.yaml`): Automatic version management and releases
+
+### Submodule Management
+This repository uses git submodules for `pyenv` and `zprezto`. To update submodules:
+
+```bash
+# Update all submodules to latest
+git submodule update --remote
+
+# Update specific submodule (pyenv to specific version)
+cd pyenv
+git checkout v2.6.3  # or latest version
+cd ..
+git add pyenv
+git commit -m "update pyenv to v2.6.3"
+
+# Update zprezto submodule (typically stays on master)
+cd zprezto
+git checkout master
+git pull origin master
+cd ..
+git add zprezto
+git commit -m "update zprezto to latest master"
+
+# Check submodule status
+git submodule status
+```
+
+**Note**: 
+- `pyenv` uses semantic versioning tags (e.g., v2.6.3)
+- `zprezto` typically uses the master branch
+- Always commit submodule updates to track the specific versions used
 
 ## Author
 Takuya Makino
