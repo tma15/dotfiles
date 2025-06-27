@@ -42,5 +42,43 @@ tmux is automatically started whenever a terminal is opened.
 ### VS Code
 VS Code configuration files are also included. The `vscode/` directory contains editor settings and recommended extensions, allowing you to quickly set up a comfortable development environment in VS Code.
 
+## Development
+
+### Version Management
+This repository uses [tagpr](https://github.com/Songmu/tagpr) for automatic version management and release creation.
+
+#### How to update version
+1. **Make changes** to dotfiles configuration
+2. **Create a pull request** with your changes
+3. **Add version labels** to the PR:
+   - `major`: for breaking changes (e.g., major configuration restructure)
+   - `minor`: for new features (e.g., new tool configuration)
+   - No label: for patch updates (e.g., bug fixes, minor tweaks)
+4. **Merge the PR** to the main branch
+
+#### What happens automatically
+- tagpr creates a release PR with updated `VERSION` file and `CHANGELOG.md`
+- When the release PR is merged:
+  - Git tag is created (e.g., `v1.2.3`)
+  - GitHub Release is published
+  - Version files are synchronized
+
+#### Manual version update (if needed)
+If you need to manually update the version:
+```bash
+# Edit VERSION file
+echo "1.2.3" > VERSION
+
+# Commit and push
+git add VERSION
+git commit -m "bump version to 1.2.3"
+git push
+```
+
+### CI/CD
+The repository includes GitHub Actions workflows:
+- **CI** (`ci.yaml`): Tests syntax and installation on Ubuntu/macOS
+- **tagpr** (`tagpr.yaml`): Automatic version management and releases
+
 ## Author
 Takuya Makino
