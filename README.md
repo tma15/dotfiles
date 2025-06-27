@@ -2,6 +2,8 @@
 
 [![CI](https://github.com/tma15/dotfiles/workflows/CI/badge.svg)](https://github.com/tma15/dotfiles/actions/workflows/ci.yaml)
 [![tagpr](https://github.com/tma15/dotfiles/workflows/tagpr/badge.svg)](https://github.com/tma15/dotfiles/actions/workflows/tagpr.yaml)
+[![Security Check](https://github.com/tma15/dotfiles/workflows/Security%20and%20Dependency%20Check/badge.svg)](https://github.com/tma15/dotfiles/actions/workflows/security-check.yaml)
+[![Submodule Update](https://github.com/tma15/dotfiles/workflows/Submodule%20Update%20Check/badge.svg)](https://github.com/tma15/dotfiles/actions/workflows/submodule-update.yaml)
 [![GitHub release (latest by date)](https://img.shields.io/github/v/release/tma15/dotfiles)](https://github.com/tma15/dotfiles/releases)
 [![License](https://img.shields.io/github/license/tma15/dotfiles)](https://github.com/tma15/dotfiles/blob/main/LICENSE)
 [![GitHub last commit](https://img.shields.io/github/last-commit/tma15/dotfiles)](https://github.com/tma15/dotfiles/commits/main)
@@ -85,9 +87,42 @@ git push
 ```
 
 ### CI/CD
-The repository includes GitHub Actions workflows:
-- **CI** (`ci.yaml`): Tests syntax and installation on Ubuntu/macOS
+The repository includes comprehensive GitHub Actions workflows for automation and quality assurance:
+
+#### Core Workflows
+- **CI** (`ci.yaml`): 
+  - Tests syntax and installation on Ubuntu/macOS
+  - Validates configuration files and dependencies
+  - Checks for code quality issues (trailing whitespace, line endings)
+  - Verifies submodule integrity and symlink health
 - **tagpr** (`tagpr.yaml`): Automatic version management and releases
+
+#### Automated Maintenance
+- **Submodule Update Check** (`submodule-update.yaml`):
+  - Runs weekly (Monday 9:00 AM UTC)
+  - Automatically checks for new pyenv releases and zprezto updates
+  - Creates pull requests when updates are available
+  - Includes proper labeling for dependency updates
+- **Security & Dependency Check** (`security-check.yaml`):
+  - Runs weekly (Tuesday 2:00 AM UTC)
+  - Scans for security vulnerabilities using Trivy
+  - Checks for outdated tools (Deno, GitHub Actions)
+  - Validates license compliance across submodules
+  - Reports results to GitHub Security tab
+
+#### Manual Triggers
+All automated workflows can be manually triggered via GitHub Actions interface for immediate checks when needed.
+
+#### Workflow Badges
+You can monitor the status of these workflows through the badges at the top of this README:
+- CI status shows the health of the latest tests
+- tagpr status indicates the state of version management
+- Additional workflow statuses can be viewed in the Actions tab
+
+#### Security Features
+- **Vulnerability Scanning**: Automated security scans with results uploaded to GitHub Security tab
+- **Dependency Review**: Automatic review of dependency changes in pull requests
+- **License Compliance**: Regular checks to ensure all components maintain proper licensing
 
 ### Submodule Management
 This repository uses git submodules for `pyenv` and `zprezto`. To update submodules:
