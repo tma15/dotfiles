@@ -133,7 +133,9 @@ git submodule update --remote
 
 # Update specific submodule (pyenv to specific version)
 cd pyenv
-git checkout v2.6.3  # or latest version
+git fetch --tags --all  # Ensure all tags are available
+git tag --list | grep -E '^v[0-9]+\.' | tail -5  # Check available versions
+git checkout v2.6.3  # or latest version (check above command output)
 cd ..
 git add pyenv
 git commit -m "update pyenv to v2.6.3"
