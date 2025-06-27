@@ -102,11 +102,21 @@ jobs:
 
     - name: Lint shell scripts
       run: |
-        # Lint init.zsh
-        shellcheck init.zsh
+        # Lint init.zsh (skip shellcheck for zsh-specific syntax)
+        echo "Checking init.zsh syntax with zsh..."
+        zsh -n init.zsh
         
-        # Lint zshrc
-        shellcheck zshrc
+        # Lint zshrc (skip shellcheck for zsh-specific syntax)
+        echo "Checking zshrc syntax with zsh..."
+        zsh -n zshrc
+        
+        # Lint any bash scripts if they exist
+        if find . -name "*.sh" -o -name "*.bash" | grep -q .; then
+          echo "Linting bash scripts with shellcheck..."
+          find . -name "*.sh" -o -name "*.bash" -exec shellcheck {} \;
+        else
+          echo "No bash scripts found to lint"
+        fi
 
     - name: Check for trailing whitespace
       run: |
