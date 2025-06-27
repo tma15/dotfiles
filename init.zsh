@@ -18,34 +18,34 @@ error() {
 
 check_dependencies() {
     info "Checking dependencies..."
-    
+
     # Check for required commands
     local missing_deps=()
-    
+
     if ! command -v git >/dev/null 2>&1; then
         missing_deps+=("git")
     fi
-    
+
     if ! command -v curl >/dev/null 2>&1; then
         missing_deps+=("curl")
     fi
-    
+
     if ! command -v zsh >/dev/null 2>&1; then
         missing_deps+=("zsh")
     fi
-    
+
     if [ ${#missing_deps[@]} -gt 0 ]; then
         error "Missing required dependencies: ${missing_deps[*]}"
         error "Please install the missing dependencies and try again."
         exit 1
     fi
-    
+
     success "All dependencies are available"
 }
 
 check_os_compatibility() {
     info "Checking OS compatibility..."
-    
+
     local os_name=$(uname)
     case "$os_name" in
         "Darwin")
@@ -102,7 +102,7 @@ install_deno() {
 
 install_dotfiles() {
     info "Installing dotfiles..."
-    
+
     # https://github.com/sorin-ionescu/prezto
     link_files `pwd`/zprezto ~/.zprezto
     link_files `pwd`/zprezto/runcoms/zlogin ~/.zlogin
@@ -132,7 +132,7 @@ install_dotfiles() {
     else
         warn "Non-macOS system detected. Skipping VS Code settings."
     fi
-    
+
     success "Dotfiles installation completed"
 }
 
