@@ -1,4 +1,11 @@
 # Dotfiles
+
+[![CI](https://github.com/tma15/dotfiles/workflows/CI/badge.svg)](https://github.com/tma15/dotfiles/actions/workflows/ci.yaml)
+[![tagpr](https://github.com/tma15/dotfiles/workflows/tagpr/badge.svg)](https://github.com/tma15/dotfiles/actions/workflows/tagpr.yaml)
+[![GitHub release (latest by date)](https://img.shields.io/github/v/release/tma15/dotfiles)](https://github.com/tma15/dotfiles/releases)
+[![License](https://img.shields.io/github/license/tma15/dotfiles)](https://github.com/tma15/dotfiles/blob/main/LICENSE)
+[![GitHub last commit](https://img.shields.io/github/last-commit/tma15/dotfiles)](https://github.com/tma15/dotfiles/commits/main)
+
 The dotfiles repository contains configuration files for the following tools:
 
 - tmux
