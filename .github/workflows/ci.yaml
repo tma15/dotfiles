@@ -103,10 +103,10 @@ jobs:
     - name: Lint shell scripts
       run: |
         # Lint init.zsh
-        shellcheck init.zsh || echo "shellcheck found issues in init.zsh"
+        shellcheck init.zsh
         
         # Lint zshrc
-        shellcheck zshrc || echo "shellcheck found issues in zshrc"
+        shellcheck zshrc
 
     - name: Check for trailing whitespace
       run: |
