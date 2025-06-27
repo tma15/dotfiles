@@ -1,4 +1,11 @@
 # Dotfiles
+
+[![CI](https://github.com/tma15/dotfiles/workflows/CI/badge.svg)](https://github.com/tma15/dotfiles/actions/workflows/ci.yaml)
+[![tagpr](https://github.com/tma15/dotfiles/workflows/tagpr/badge.svg)](https://github.com/tma15/dotfiles/actions/workflows/tagpr.yaml)
+[![GitHub release (latest by date)](https://img.shields.io/github/v/release/tma15/dotfiles)](https://github.com/tma15/dotfiles/releases)
+[![License](https://img.shields.io/github/license/tma15/dotfiles)](https://github.com/tma15/dotfiles/blob/main/LICENSE)
+[![GitHub last commit](https://img.shields.io/github/last-commit/tma15/dotfiles)](https://github.com/tma15/dotfiles/commits/main)
+
 The dotfiles repository contains configuration files for the following tools:
 
 - tmux
@@ -34,6 +41,44 @@ tmux is automatically started whenever a terminal is opened.
 
 ### VS Code
 VS Code configuration files are also included. The `vscode/` directory contains editor settings and recommended extensions, allowing you to quickly set up a comfortable development environment in VS Code.
+
+## Development
+
+### Version Management
+This repository uses [tagpr](https://github.com/Songmu/tagpr) for automatic version management and release creation.
+
+#### How to update version
+1. **Make changes** to dotfiles configuration
+2. **Create a pull request** with your changes
+3. **Add version labels** to the PR:
+   - `major`: for breaking changes (e.g., major configuration restructure)
+   - `minor`: for new features (e.g., new tool configuration)
+   - No label: for patch updates (e.g., bug fixes, minor tweaks)
+4. **Merge the PR** to the main branch
+
+#### What happens automatically
+- tagpr creates a release PR with updated `VERSION` file and `CHANGELOG.md`
+- When the release PR is merged:
+  - Git tag is created (e.g., `v1.2.3`)
+  - GitHub Release is published
+  - Version files are synchronized
+
+#### Manual version update (if needed)
+If you need to manually update the version:
+```bash
+# Edit VERSION file
+echo "1.2.3" > VERSION
+
+# Commit and push
+git add VERSION
+git commit -m "bump version to 1.2.3"
+git push
+```
+
+### CI/CD
+The repository includes GitHub Actions workflows:
+- **CI** (`ci.yaml`): Tests syntax and installation on Ubuntu/macOS
+- **tagpr** (`tagpr.yaml`): Automatic version management and releases
 
 ## Author
 Takuya Makino
