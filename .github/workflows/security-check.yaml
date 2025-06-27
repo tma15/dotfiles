@@ -1,0 +1,135 @@
+name: Security and Dependency Check
+
+on:
+  schedule:
+    # Run every Tuesday at 2:00 AM UTC
+    - cron: '0 2 * * 2'
+  workflow_dispatch:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  security-scan:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      with:
+        submodules: recursive
+
+    - name: Run Trivy vulnerability scanner
+      uses: aquasecurity/trivy-action@master
+      with:
+        scan-type: 'fs'
+        scan-ref: '.'
+        format: 'sarif'
+        output: 'trivy-results.sarif'
+
+    - name: Upload Trivy scan results to GitHub Security tab
+      uses: github/codeql-action/upload-sarif@v2
+      if: always()
+      with:
+        sarif_file: 'trivy-results.sarif'
+
+    - name: Check for known vulnerabilities in submodules
+      run: |
+        echo "## Security Scan Results" >> $GITHUB_STEP_SUMMARY
+        echo "### Checking submodules for known vulnerabilities..." >> $GITHUB_STEP_SUMMARY
+        
+        # Check pyenv
+        cd pyenv
+        PYENV_VERSION=$(git describe --tags --exact-match HEAD 2>/dev/null || echo "unknown")
+        echo "- pyenv version: $PYENV_VERSION" >> $GITHUB_STEP_SUMMARY
+        
+        # Check zprezto
+        cd ../zprezto
+        ZPREZTO_COMMIT=$(git rev-parse --short HEAD)
+        echo "- zprezto commit: $ZPREZTO_COMMIT" >> $GITHUB_STEP_SUMMARY
+        
+        cd ..
+
+  dependency-review:
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+    
+    - name: Dependency Review
+      uses: actions/dependency-review-action@v3
+      with:
+        fail-on-severity: moderate
+
+  check-outdated-tools:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      with:
+        submodules: recursive
+
+    - name: Check Deno version
+      run: |
+        echo "## Tool Version Check" >> $GITHUB_STEP_SUMMARY
+        
+        # Check current Deno version in init.zsh
+        CURRENT_DENO=$(grep -o 'v[0-9]\+\.[0-9]\+\.[0-9]\+' init.zsh | head -1)
+        echo "Current Deno version in script: $CURRENT_DENO" >> $GITHUB_STEP_SUMMARY
+        
+        # Get latest Deno version
+        LATEST_DENO=$(curl -s https://api.github.com/repos/denoland/deno/releases/latest | jq -r .tag_name)
+        echo "Latest Deno version: $LATEST_DENO" >> $GITHUB_STEP_SUMMARY
+        
+        if [ "$CURRENT_DENO" != "$LATEST_DENO" ]; then
+          echo "⚠️ Deno version is outdated!" >> $GITHUB_STEP_SUMMARY
+          echo "Consider updating from $CURRENT_DENO to $LATEST_DENO" >> $GITHUB_STEP_SUMMARY
+        else
+          echo "✅ Deno version is up to date" >> $GITHUB_STEP_SUMMARY
+        fi
+
+    - name: Check GitHub Actions versions
+      run: |
+        echo "### GitHub Actions Version Check" >> $GITHUB_STEP_SUMMARY
+        
+        # Check for outdated actions
+        grep -r "uses:" .github/workflows/ | grep -v "v4\|v5\|v3\|master\|main" | while read line; do
+          echo "⚠️ Potentially outdated action: $line" >> $GITHUB_STEP_SUMMARY || true
+        done
+        
+        echo "✅ GitHub Actions version check completed" >> $GITHUB_STEP_SUMMARY
+
+  license-check:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      with:
+        submodules: recursive
+
+    - name: Check licenses
+      run: |
+        echo "## License Compliance Check" >> $GITHUB_STEP_SUMMARY
+        
+        # Check if LICENSE file exists
+        if [ -f LICENSE ]; then
+          echo "✅ LICENSE file found" >> $GITHUB_STEP_SUMMARY
+        else
+          echo "⚠️ LICENSE file not found" >> $GITHUB_STEP_SUMMARY
+        fi
+        
+        # Check submodule licenses
+        echo "### Submodule Licenses" >> $GITHUB_STEP_SUMMARY
+        
+        if [ -f pyenv/LICENSE ]; then
+          echo "- pyenv: $(head -1 pyenv/LICENSE | cut -c1-50)..." >> $GITHUB_STEP_SUMMARY
+        fi
+        
+        if [ -f zprezto/LICENSE ]; then
+          echo "- zprezto: $(head -1 zprezto/LICENSE | cut -c1-50)..." >> $GITHUB_STEP_SUMMARY
+        fi

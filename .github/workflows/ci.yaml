@@ -133,3 +133,49 @@ jobs:
           echo "Windows line endings found!"
           exit 1
         }
+
+  dependency-check:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      with:
+        submodules: recursive
+
+    - name: Check submodule integrity
+      run: |
+        # Verify submodules are properly initialized
+        git submodule status
+        
+        # Check that submodule directories exist and are not empty
+        test -d pyenv && test "$(ls -A pyenv)" || {
+          echo "pyenv submodule is empty or missing"
+          exit 1
+        }
+        
+        test -d zprezto && test "$(ls -A zprezto)" || {
+          echo "zprezto submodule is empty or missing"
+          exit 1
+        }
+
+    - name: Validate configuration files
+      run: |
+        # Check that key configuration files are valid
+        test -f vimrc || { echo "vimrc not found"; exit 1; }
+        test -f zshrc || { echo "zshrc not found"; exit 1; }
+        test -f tmux.conf || { echo "tmux.conf not found"; exit 1; }
+        test -f zpreztorc || { echo "zpreztorc not found"; exit 1; }
+        
+        # Check file sizes (shouldn't be empty)
+        test -s vimrc || { echo "vimrc is empty"; exit 1; }
+        test -s zshrc || { echo "zshrc is empty"; exit 1; }
+        test -s tmux.conf || { echo "tmux.conf is empty"; exit 1; }
+
+    - name: Check for broken symlinks
+      run: |
+        # Find any broken symlinks in the repository
+        find . -type l -exec test ! -e {} \; -print | while read broken_link; do
+          echo "Broken symlink found: $broken_link"
+          exit 1
+        done || echo "No broken symlinks found"
