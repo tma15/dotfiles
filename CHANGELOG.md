@@ -1,5 +1,14 @@
 # Changelog
 
+## [v1.1.0](https://github.com/tma15/dotfiles/compare/v1.0.0...v1.1.0) - 2025-09-24
+- update pyenv submodule to v2.6.3 by @tma15 in https://github.com/tma15/dotfiles/pull/11
+- update README.md to include installation requirements and submodule m… by @tma15 in https://github.com/tma15/dotfiles/pull/13
+- enhance init.zsh with improved dependency checks, OS compatibility, a… by @tma15 in https://github.com/tma15/dotfiles/pull/14
+- Add CI workflows for dependency checks and submodule updates by @tma15 in https://github.com/tma15/dotfiles/pull/15
+- Enhance submodule update workflow with tag fetching and validation by @tma15 in https://github.com/tma15/dotfiles/pull/16
+- Update submodules by @tma15 in https://github.com/tma15/dotfiles/pull/17
+- 🔄 Update zprezto to latest master by @github-actions[bot] in https://github.com/tma15/dotfiles/pull/18
+
 ## [v1.0.0](https://github.com/tma15/dotfiles/compare/v0.2.0...v1.0.0) - 2025-06-27
 - Add VScode description to README.md by @tma15 in https://github.com/tma15/dotfiles/pull/7
 - Feature/addd ci by @tma15 in https://github.com/tma15/dotfiles/pull/8
