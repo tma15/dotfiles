@@ -125,7 +125,28 @@ You can monitor the status of these workflows through the badges at the top of t
 - **License Compliance**: Regular checks to ensure all components maintain proper licensing
 
 ### Submodule Management
-This repository uses git submodules for `pyenv` and `zprezto`. To update submodules:
+This repository uses git submodules for `pyenv` and `zprezto`.
+
+#### After Pulling Latest Changes
+When you pull the latest changes from the repository, submodules are **not automatically updated**. You need to explicitly update them:
+
+```bash
+# After git pull
+git pull origin main
+
+# Update submodules to match the repository's recorded versions
+git submodule update --init --recursive
+```
+
+Or simply re-run the setup script (recommended):
+```bash
+zsh init.zsh
+```
+
+**Important**: The automated CI workflow creates PRs for submodule updates weekly. After merging these PRs, you must run `git submodule update --init --recursive` locally to apply the updates to your environment.
+
+#### Manually Updating Submodules
+To update submodules to newer versions:
 
 ```bash
 # Update all submodules to latest
@@ -135,10 +156,10 @@ git submodule update --remote
 cd pyenv
 git fetch --tags --all  # Ensure all tags are available
 git tag --list | grep -E '^v[0-9]+\.' | tail -5  # Check available versions
-git checkout v2.6.3  # or latest version (check above command output)
+git checkout v2.6.10  # or latest version (check above command output)
 cd ..
 git add pyenv
-git commit -m "update pyenv to v2.6.3"
+git commit -m "chore: update pyenv to v2.6.10"
 
 # Update zprezto submodule (typically stays on master)
 cd zprezto
@@ -146,16 +167,17 @@ git checkout master
 git pull origin master
 cd ..
 git add zprezto
-git commit -m "update zprezto to latest master"
+git commit -m "chore: update zprezto to latest master"
 
 # Check submodule status
 git submodule status
 ```
 
 **Note**: 
-- `pyenv` uses semantic versioning tags (e.g., v2.6.3)
+- `pyenv` uses semantic versioning tags (e.g., v2.6.10)
 - `zprezto` typically uses the master branch
 - Always commit submodule updates to track the specific versions used
+- New Python versions (3.13.x, etc.) require updating pyenv to the latest release
 
 ## Author
 Takuya Makino
