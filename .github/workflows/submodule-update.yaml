@@ -71,6 +71,26 @@ jobs:
           echo "needs-update=false" >> $GITHUB_OUTPUT
         fi
 
+    - name: Update pyenv submodule
+      if: steps.pyenv-check.outputs.needs-update == 'true'
+      run: |
+        cd pyenv
+        
+        # Fetch latest tags and ensure we can checkout the target version
+        git fetch --tags --all
+        
+        # Verify the tag exists before checking out
+        if git rev-parse --verify "refs/tags/${{ steps.pyenv-check.outputs.latest-version }}" >/dev/null 2>&1; then
+          git checkout ${{ steps.pyenv-check.outputs.latest-version }}
+          echo "Successfully checked out ${{ steps.pyenv-check.outputs.latest-version }}"
+        else
+          echo "Tag ${{ steps.pyenv-check.outputs.latest-version }} not found, skipping update"
+          exit 1
+        fi
+        
+        cd ..
+        git add pyenv
+
     - name: Create Pull Request for pyenv update
       if: steps.pyenv-check.outputs.needs-update == 'true'
       uses: peter-evans/create-pull-request@v5
@@ -97,25 +117,13 @@ jobs:
           automated-pr
           minor
 
-    - name: Update pyenv submodule
-      if: steps.pyenv-check.outputs.needs-update == 'true'
+    - name: Update zprezto submodule
+      if: steps.zprezto-check.outputs.needs-update == 'true'
       run: |
-        cd pyenv
-        
-        # Fetch latest tags and ensure we can checkout the target version
-        git fetch --tags --all
-        
-        # Verify the tag exists before checking out
-        if git rev-parse --verify "refs/tags/${{ steps.pyenv-check.outputs.latest-version }}" >/dev/null 2>&1; then
-          git checkout ${{ steps.pyenv-check.outputs.latest-version }}
-          echo "Successfully checked out ${{ steps.pyenv-check.outputs.latest-version }}"
-        else
-          echo "Tag ${{ steps.pyenv-check.outputs.latest-version }} not found, skipping update"
-          exit 1
-        fi
-        
+        cd zprezto
+        git checkout origin/master
         cd ..
-        git add pyenv
+        git add zprezto
 
     - name: Create Pull Request for zprezto update
       if: steps.zprezto-check.outputs.needs-update == 'true'
@@ -144,14 +152,6 @@ jobs:
           dependencies
           automated-pr
           minor
-
-    - name: Update zprezto submodule
-      if: steps.zprezto-check.outputs.needs-update == 'true'
-      run: |
-        cd zprezto
-        git checkout origin/master
-        cd ..
-        git add zprezto
 
     - name: Create summary comment
       run: |
