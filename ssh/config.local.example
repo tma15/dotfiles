@@ -1,0 +1,14 @@
+# Copy host-specific entries here if you split SSH settings into:
+#   public repo:  ssh/config
+#   private repo: ssh/config.local
+#
+# `init.zsh` links the private file to ~/.ssh/config.local when it exists in
+# ~/work/dotfiles-private or $DOTFILES_PRIVATE_DIR.
+
+Host remote-gpu
+  HostName example-host
+  User example-user
+  Port 22
+  IdentityFile ~/.ssh/id_ed25519
+  IdentitiesOnly yes
+  ProxyCommand /path/to/ssh-proxy %h %p

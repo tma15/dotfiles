@@ -1,0 +1,33 @@
+# Keep machine-specific paths, secrets, and server shortcuts here.
+# Copy this to:
+#   ~/work/dotfiles-private/zshrc.local
+# or:
+#   ~/.zshrc.local
+#
+# `init.zsh` links the private-repo variant automatically when it exists.
+
+# Example: initialize a local Google Cloud SDK install.
+# if [[ -f "$HOME/Downloads/google-cloud-sdk/path.zsh.inc" ]]; then
+#   source "$HOME/Downloads/google-cloud-sdk/path.zsh.inc"
+# fi
+# if [[ -f "$HOME/Downloads/google-cloud-sdk/completion.zsh.inc" ]]; then
+#   source "$HOME/Downloads/google-cloud-sdk/completion.zsh.inc"
+# fi
+
+# Example: secrets belong in a local-only file or secret manager.
+# export OPENAI_API_KEY="..."
+# export LANGCHAIN_API_KEY="..."
+
+# Keep real server definitions out of this file.
+# Define SSH host aliases in ~/.ssh/config or ~/.ssh/config.local instead.
+#
+# If you still want a zsh shorthand, keep it here and reference the SSH alias:
+# cmux() {
+#   if [[ "$1" == "ssh" && "$2" == "remote-gpu" ]]; then
+#     shift 2
+#     command cmux ssh remote-gpu --name remote-gpu "$@"
+#     return $?
+#   fi
+#
+#   command cmux "$@"
+# }

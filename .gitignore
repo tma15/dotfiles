@@ -1,4 +1,6 @@
 .*.swp
+ssh/config.local
+zshrc.local
 vim/dein/repos
 vim/dein/.cache
 vim/black

@@ -93,8 +93,14 @@ zstyle ':prezto:module:git:status:ignore' submodules 'all'
 # History
 #
 
+# Keep using the main history file when cmux points ZDOTDIR at a relay dir.
+_prezto_histfile="${ZDOTDIR:-$HOME}/.zsh_history"
+if [[ -n "${ZDOTDIR:-}" && "$ZDOTDIR" == "$HOME/.cmux/relay/"* ]]; then
+  _prezto_histfile="$HOME/.zsh_history"
+fi
+
 # Set the file to save the history in when an interactive shell exits.
-zstyle ':prezto:module:history' histfile "${ZDOTDIR:-$HOME}/.zsh_history"
+zstyle ':prezto:module:history' histfile "$_prezto_histfile"
 
 # Set the maximum  number  of  events  stored  in  the  internal history list.
 zstyle ':prezto:module:history' histsize 10000
