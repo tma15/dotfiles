@@ -1,0 +1,4 @@
+font-family = UDEV Gothic 35NF
+
+# Make Ctrl+M send a carriage return explicitly inside cmux/Ghostty terminals.
+keybind = ctrl+m=text:\x0d

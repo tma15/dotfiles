@@ -77,8 +77,12 @@ backup_existing() {
 
 
 setup_git_submodule() {
-    git submodule update --init --recursive && \
-    success "git submodule update --init --recursive"
+    if git submodule update --init --recursive; then
+        success "git submodule update --init --recursive"
+    else
+        error "Failed to initialize git submodules"
+        exit 1
+    fi
 }
 
 
@@ -102,6 +106,7 @@ install_deno() {
 
 install_dotfiles() {
     info "Installing dotfiles..."
+    local private_dotfiles_dir="${DOTFILES_PRIVATE_DIR:-$HOME/work/dotfiles-private}"
 
     # https://github.com/sorin-ionescu/prezto
     link_files `pwd`/zprezto ~/.zprezto
@@ -116,6 +121,25 @@ install_dotfiles() {
     link_files `pwd`/vim ~/.vim
     link_files `pwd`/zshrc ~/.zshrc
     link_files `pwd`/zpreztorc ~/.zpreztorc
+    if [ -d "$private_dotfiles_dir" ]; then
+        if [ -f "$private_dotfiles_dir/zshrc.local" ]; then
+            link_files "$private_dotfiles_dir/zshrc.local" ~/.zshrc.local
+        else
+            warn "Private zsh overlay not found at $private_dotfiles_dir/zshrc.local. Skipping."
+        fi
+    fi
+    mkdir -p ~/.ssh
+    link_files `pwd`/ssh/config ~/.ssh/config
+    if [ -d "$private_dotfiles_dir" ]; then
+        if [ -f "$private_dotfiles_dir/ssh/config.local" ]; then
+            link_files "$private_dotfiles_dir/ssh/config.local" ~/.ssh/config.local
+        else
+            warn "Private SSH overlay not found at $private_dotfiles_dir/ssh/config.local. Skipping."
+        fi
+    fi
+    mkdir -p ~/.config/ghostty
+    link_files `pwd`/ghostty/config.ghostty ~/.config/ghostty/config.ghostty
+    link_files `pwd`/ghostty/config.ghostty ~/.config/ghostty/config
 
     # VS Code settings (macOS specific)
     if [[ "$(uname)" == "Darwin" ]]; then

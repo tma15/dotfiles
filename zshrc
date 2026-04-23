@@ -12,15 +12,30 @@ eval "$(pyenv init --path)"
 export DENO_INSTALL=$HOME/.deno
 export PATH="$DENO_INSTALL/bin:$PATH"
 
-source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
+if [[ -n "${ZDOTDIR:-}" && "$ZDOTDIR" == "$HOME/.cmux/relay/"* && -d "$ZDOTDIR" ]]; then
+  [[ -e "$ZDOTDIR/.zpreztorc" ]] || ln -s "$HOME/.zpreztorc" "$ZDOTDIR/.zpreztorc" 2>/dev/null
+  if [[ -e "$HOME/.p10k.zsh" && ! -e "$ZDOTDIR/.p10k.zsh" ]]; then
+    ln -s "$HOME/.p10k.zsh" "$ZDOTDIR/.p10k.zsh" 2>/dev/null
+  fi
+fi
+
+if [[ -r "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
+  source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
+elif [[ -r "$HOME/.zprezto/init.zsh" ]]; then
+  source "$HOME/.zprezto/init.zsh"
+fi
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
-# The next line updates PATH for the Google Cloud SDK.
-if [ -f '/Users/01047926/Downloads/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/01047926/Downloads/google-cloud-sdk/path.zsh.inc'; fi
-
-# The next line enables shell command completion for gcloud.
-if [ -f '/Users/01047926/Downloads/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/01047926/Downloads/google-cloud-sdk/completion.zsh.inc'; fi
-
 . "$HOME/.local/bin/env"
+
+# Load machine-specific overrides outside version control.
+typeset -g DOTFILES_ZSHRC_DIR="${${(%):-%N}:A:h}"
+for _dotfiles_local_zshrc in "$HOME/.zshrc.local" "$DOTFILES_ZSHRC_DIR/zshrc.local"; do
+  if [[ -r "$_dotfiles_local_zshrc" ]]; then
+    source "$_dotfiles_local_zshrc"
+    break
+  fi
+done
+unset _dotfiles_local_zshrc

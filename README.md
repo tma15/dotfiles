@@ -10,9 +10,11 @@
 
 The dotfiles repository contains configuration files for the following tools:
 
+- SSH
 - tmux
 - vim
 - zsh
+- Ghostty
 - VS Code
 
 ## Install
@@ -30,6 +32,7 @@ zsh init.zsh
 ```
 
 **Note**: The installation script will automatically install Deno and configure symbolic links.
+If you split private settings into a separate repository, place it at `~/work/dotfiles-private` or set `DOTFILES_PRIVATE_DIR` before running `init.zsh`.
 
 ## Features
 ### Vim
@@ -47,8 +50,20 @@ The zsh configuration is based on [prezto](https://github.com/sorin-ionescu/prez
 
 The Python environment is managed by [pyenv](https://github.com/pyenv/pyenv), with its configuration in `zshrc`.
 
+Keep `zshrc` portable and put machine-specific values in `~/.zshrc.local` (recommended) or `zshrc.local` next to the repository copy of `zshrc`. Use it for local SDK paths and API keys; `zshrc.local.example` shows the expected shape.
+
+For remote access, define host aliases in `~/.ssh/config.local` so `cmux ssh <alias>` works without a shell wrapper. The tracked `ssh/config` contains shared defaults and includes the local file; `ssh/config.local.example` shows the intended shape for the untracked host-specific part.
+
+### SSH
+Shared SSH defaults are managed in `ssh/config` and linked to `~/.ssh/config` by `init.zsh`. Keep host-specific entries in `~/.ssh/config.local`.
+
+To fully recreate a machine without putting server details in the public repository, keep a separate private overlay repository with files such as `zshrc.local` and `ssh/config.local`. `init.zsh` links those files automatically from `~/work/dotfiles-private` by default, or from `$DOTFILES_PRIVATE_DIR` if set.
+
 ### Tmux
 tmux is automatically started whenever a terminal is opened.
+
+### Ghostty
+Ghostty terminal settings are managed in `ghostty/config.ghostty` and linked to both `~/.config/ghostty/config.ghostty` and `~/.config/ghostty/config` by `init.zsh` so Ghostty and cmux read the same file.
 
 ### VS Code
 VS Code configuration files are also included. The `vscode/` directory contains editor settings and recommended extensions, allowing you to quickly set up a comfortable development environment in VS Code.
