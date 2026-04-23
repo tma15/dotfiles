@@ -1,7 +1,8 @@
+Include ~/.ssh/config.local
+
 Host *
   ServerAliveInterval 60
-  ForwardAgent yes
-  IdentityFile ~/.ssh/id_rsa
   AddKeysToAgent yes
+  ForwardAgent no
 
-Include ~/.ssh/config.local
+# Keep host-specific identities, agent forwarding, and proxies in the local file.

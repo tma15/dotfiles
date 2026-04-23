@@ -95,7 +95,7 @@ zstyle ':prezto:module:git:status:ignore' submodules 'all'
 
 # Keep using the main history file when cmux points ZDOTDIR at a relay dir.
 _prezto_histfile="${ZDOTDIR:-$HOME}/.zsh_history"
-if [[ -n "${ZDOTDIR:-}" && "$ZDOTDIR" == "$HOME/.cmux/relay/"* ]]; then
+if [[ "${DOTFILES_IS_CMUX_RELAY:-0}" == '1' ]]; then
   _prezto_histfile="$HOME/.zsh_history"
 fi
 
@@ -231,6 +231,9 @@ zstyle ':prezto:module:syntax-highlighting' pattern \
 #
 # Tmux
 #
+
+# cmux is the primary multiplexer entry point. Keep Prezto tmux aliases disabled.
+zstyle ':prezto:module:tmux:alias' skip 'yes'
 
 # Auto start a session when Zsh is launched in a local terminal.
 zstyle ':prezto:module:tmux:auto-start' local 'no'
