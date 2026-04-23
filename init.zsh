@@ -162,14 +162,19 @@ install_dotfiles() {
     success "Dotfiles installation completed"
 }
 
-# Main execution
-info "Starting dotfiles installation..."
+main() {
+    info "Starting dotfiles installation..."
 
-check_dependencies
-check_os_compatibility
-setup_git_submodule
-install_dotfiles
+    check_dependencies
+    check_os_compatibility
+    setup_git_submodule
+    install_dotfiles
 
-if [ ! -e $HOME/.deno/bin/deno ]; then
-    install_deno
+    if [ ! -e "$HOME/.deno/bin/deno" ]; then
+        install_deno
+    fi
+}
+
+if [[ -z "${DOTFILES_SOURCE_ONLY:-}" && "${${(%):-%N}:A}" == "${0:A}" ]]; then
+    main "$@"
 fi

@@ -61,6 +61,7 @@ When that overlay repository exists, `init.zsh` links:
 - Main shell settings live in `zpreztorc`
 - `zshrc` sets up `pyenv`, Deno, Prezto, and local overrides
 - `zshrc` loads `~/.zshrc.local` first, then a repo-local `zshrc.local` if present
+- For cmux relay behavior and SSH alias setup, see `docs/cmux.md`
 
 ### Vim
 
@@ -73,12 +74,12 @@ When that overlay repository exists, `init.zsh` links:
 
 - Shared defaults live in `ssh/config`
 - `ssh/config` includes `~/.ssh/config.local`
-- Public defaults and private host aliases stay separate
+- Public defaults stay in `ssh/config`; identities, forwarding, and host aliases stay local
 
 ### tmux
 
 - `tmux.conf` is installed by `init.zsh`
-- tmux auto-start is currently disabled in `zpreztorc`
+- tmux is kept as an explicit fallback; Prezto tmux auto-start and aliases are disabled
 
 ### Ghostty
 
@@ -105,6 +106,7 @@ zsh init.zsh
 - Releases are managed with `tagpr`
 - GitHub Actions workflows live in `.github/workflows/`
 - Weekly workflows check submodule updates and security/dependency issues
+- Run local smoke tests with `zsh test/run.zsh`
 
 ## Author
 

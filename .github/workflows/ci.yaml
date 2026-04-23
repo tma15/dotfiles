@@ -39,6 +39,9 @@ jobs:
         # Test zshrc syntax
         zsh -n zshrc
 
+        # Test zpreztorc syntax
+        zsh -n zpreztorc
+
     - name: Test vimrc syntax
       run: |
         # Install vim for syntax checking
@@ -61,23 +64,9 @@ jobs:
         # Test tmux config syntax
         tmux -f tmux.conf list-keys > /dev/null
 
-    - name: Test dotfiles installation (dry run)
+    - name: Run dotfiles smoke tests
       run: |
-        # Create a temporary directory to test installation
-        mkdir -p /tmp/dotfiles-test
-        export HOME=/tmp/dotfiles-test
-        
-        # Test git submodule update
-        git submodule update --init --recursive
-        
-        # Test that files exist
-        test -f vimrc
-        test -f zshrc
-        test -f tmux.conf
-        test -f zpreztorc
-        test -d vim
-        test -d zprezto
-        test -d pyenv
+        zsh test/run.zsh
 
     - name: Test file permissions
       run: |
@@ -109,6 +98,12 @@ jobs:
         # Lint zshrc (skip shellcheck for zsh-specific syntax)
         echo "Checking zshrc syntax with zsh..."
         zsh -n zshrc
+
+        echo "Checking zpreztorc syntax with zsh..."
+        zsh -n zpreztorc
+
+        echo "Checking test scripts syntax with zsh..."
+        find test -name "*.zsh" -exec zsh -n {} \;
         
         # Lint any bash scripts if they exist
         if find . -name "*.sh" -o -name "*.bash" | grep -q .; then

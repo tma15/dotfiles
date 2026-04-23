@@ -4,6 +4,9 @@
 #
 # `init.zsh` links the private file to ~/.ssh/config.local when it exists in
 # ~/work/dotfiles-private or $DOTFILES_PRIVATE_DIR.
+#
+# Keep identities, agent forwarding, and proxies scoped to the hosts that need
+# them instead of setting them globally.
 
 Host remote-gpu
   HostName example-host
@@ -11,4 +14,5 @@ Host remote-gpu
   Port 22
   IdentityFile ~/.ssh/id_ed25519
   IdentitiesOnly yes
+  ForwardAgent yes
   ProxyCommand /path/to/ssh-proxy %h %p
