@@ -6,10 +6,24 @@ on:
     - cron: '0 9 * * 1'
   workflow_dispatch: # Allow manual triggering
 
+permissions:
+  contents: write
+  pull-requests: write
+
+concurrency:
+  group: submodule-update
+  cancel-in-progress: false
+
 jobs:
-  check-submodule-updates:
+  check-updates:
     runs-on: ubuntu-latest
-    
+    outputs:
+      pyenv_current_version: ${{ steps.pyenv-check.outputs.current-version }}
+      pyenv_latest_version: ${{ steps.pyenv-check.outputs.latest-version }}
+      pyenv_needs_update: ${{ steps.pyenv-check.outputs.needs-update }}
+      zprezto_current_commit: ${{ steps.zprezto-check.outputs.current-commit }}
+      zprezto_latest_commit: ${{ steps.zprezto-check.outputs.latest-commit }}
+      zprezto_needs_update: ${{ steps.zprezto-check.outputs.needs-update }}
     steps:
     - name: Checkout repository
       uses: actions/checkout@v4
@@ -71,88 +85,6 @@ jobs:
           echo "needs-update=false" >> $GITHUB_OUTPUT
         fi
 
-    - name: Update pyenv submodule
-      if: steps.pyenv-check.outputs.needs-update == 'true'
-      run: |
-        cd pyenv
-        
-        # Fetch latest tags and ensure we can checkout the target version
-        git fetch --tags --all
-        
-        # Verify the tag exists before checking out
-        if git rev-parse --verify "refs/tags/${{ steps.pyenv-check.outputs.latest-version }}" >/dev/null 2>&1; then
-          git checkout ${{ steps.pyenv-check.outputs.latest-version }}
-          echo "Successfully checked out ${{ steps.pyenv-check.outputs.latest-version }}"
-        else
-          echo "Tag ${{ steps.pyenv-check.outputs.latest-version }} not found, skipping update"
-          exit 1
-        fi
-        
-        cd ..
-        git add pyenv
-
-    - name: Create Pull Request for pyenv update
-      if: steps.pyenv-check.outputs.needs-update == 'true'
-      uses: peter-evans/create-pull-request@v5
-      with:
-        token: ${{ secrets.GITHUB_TOKEN }}
-        commit-message: "chore: update pyenv submodule to ${{ steps.pyenv-check.outputs.latest-version }}"
-        title: "🔄 Update pyenv to ${{ steps.pyenv-check.outputs.latest-version }}"
-        body: |
-          ## Submodule Update: pyenv
-          
-          This PR updates the pyenv submodule from `${{ steps.pyenv-check.outputs.current-version }}` to `${{ steps.pyenv-check.outputs.latest-version }}`.
-          
-          ### Changes
-          - Updated pyenv submodule to latest release
-          
-          ### Verification
-          - [ ] CI tests pass
-          - [ ] Local testing completed
-          
-          *This PR was created automatically by GitHub Actions.*
-        branch: update/pyenv-${{ steps.pyenv-check.outputs.latest-version }}
-        labels: |
-          dependencies
-          automated-pr
-          minor
-
-    - name: Update zprezto submodule
-      if: steps.zprezto-check.outputs.needs-update == 'true'
-      run: |
-        cd zprezto
-        git checkout origin/master
-        cd ..
-        git add zprezto
-
-    - name: Create Pull Request for zprezto update
-      if: steps.zprezto-check.outputs.needs-update == 'true'
-      uses: peter-evans/create-pull-request@v5
-      with:
-        token: ${{ secrets.GITHUB_TOKEN }}
-        commit-message: "chore: update zprezto submodule to latest master"
-        title: "🔄 Update zprezto to latest master"
-        body: |
-          ## Submodule Update: zprezto
-          
-          This PR updates the zprezto submodule to the latest master branch.
-          
-          ### Changes
-          - Updated zprezto submodule to latest master commit
-          - From: `${{ steps.zprezto-check.outputs.current-commit }}`
-          - To: `${{ steps.zprezto-check.outputs.latest-commit }}`
-          
-          ### Verification
-          - [ ] CI tests pass
-          - [ ] Local testing completed
-          
-          *This PR was created automatically by GitHub Actions.*
-        branch: update/zprezto-latest
-        labels: |
-          dependencies
-          automated-pr
-          minor
-
     - name: Create summary comment
       run: |
         echo "## Submodule Update Check Results" >> $GITHUB_STEP_SUMMARY
@@ -160,3 +92,105 @@ jobs:
         echo "|-----------|---------|--------|--------------|" >> $GITHUB_STEP_SUMMARY
         echo "| pyenv | ${{ steps.pyenv-check.outputs.current-version }} | ${{ steps.pyenv-check.outputs.latest-version }} | ${{ steps.pyenv-check.outputs.needs-update }} |" >> $GITHUB_STEP_SUMMARY
         echo "| zprezto | ${{ steps.zprezto-check.outputs.current-commit }} | ${{ steps.zprezto-check.outputs.latest-commit }} | ${{ steps.zprezto-check.outputs.needs-update }} |" >> $GITHUB_STEP_SUMMARY
+
+  update-pyenv:
+    needs: check-updates
+    if: needs.check-updates.outputs.pyenv_needs_update == 'true'
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      with:
+        submodules: recursive
+        token: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Setup Git
+      run: |
+        git config --global user.name 'github-actions[bot]'
+        git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+
+    - name: Update pyenv submodule
+      run: |
+        cd pyenv
+        git fetch --tags --all
+        git checkout "${{ needs.check-updates.outputs.pyenv_latest_version }}"
+        cd ..
+        git add pyenv
+
+    - name: Create Pull Request for pyenv update
+      uses: peter-evans/create-pull-request@v5
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+        commit-message: "chore: update pyenv submodule to ${{ needs.check-updates.outputs.pyenv_latest_version }}"
+        title: "🔄 Update pyenv to ${{ needs.check-updates.outputs.pyenv_latest_version }}"
+        body: |
+          ## Submodule Update: pyenv
+
+          This PR updates the pyenv submodule from `${{ needs.check-updates.outputs.pyenv_current_version }}` to `${{ needs.check-updates.outputs.pyenv_latest_version }}`.
+
+          ### Changes
+          - Updated pyenv submodule to latest release
+
+          ### Verification
+          - [ ] CI tests pass
+          - [ ] Local testing completed
+
+          *This PR was created automatically by GitHub Actions.*
+        branch: update/pyenv-latest
+        delete-branch: true
+        labels: |
+          dependencies
+          automated-pr
+          minor
+
+  update-zprezto:
+    needs: check-updates
+    if: needs.check-updates.outputs.zprezto_needs_update == 'true'
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      with:
+        submodules: recursive
+        token: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Setup Git
+      run: |
+        git config --global user.name 'github-actions[bot]'
+        git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+
+    - name: Update zprezto submodule
+      run: |
+        cd zprezto
+        git fetch origin master
+        git checkout "${{ needs.check-updates.outputs.zprezto_latest_commit }}"
+        cd ..
+        git add zprezto
+
+    - name: Create Pull Request for zprezto update
+      uses: peter-evans/create-pull-request@v5
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+        commit-message: "chore: update zprezto submodule to latest master"
+        title: "🔄 Update zprezto to latest master"
+        body: |
+          ## Submodule Update: zprezto
+
+          This PR updates the zprezto submodule to the latest master branch.
+
+          ### Changes
+          - Updated zprezto submodule to latest master commit
+          - From: `${{ needs.check-updates.outputs.zprezto_current_commit }}`
+          - To: `${{ needs.check-updates.outputs.zprezto_latest_commit }}`
+
+          ### Verification
+          - [ ] CI tests pass
+          - [ ] Local testing completed
+
+          *This PR was created automatically by GitHub Actions.*
+        branch: update/zprezto-latest
+        delete-branch: true
+        labels: |
+          dependencies
+          automated-pr
+          minor
