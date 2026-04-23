@@ -43,6 +43,27 @@ filetype plugin indent off                   " (1)
 
 let s:dein_path = expand('~/.vim/dein')
 let s:dein_repo_dir = s:dein_path . '/repos/github.com/Shougo/dein.vim'
+let s:default_vimrc = expand('~/.vimrc')
+let s:default_vimrc_resolved = resolve(s:default_vimrc)
+
+" Keep dein's cache key stable even when ~/.vimrc is a symlink to this repo.
+if $MYVIMRC ==# '' || resolve(expand($MYVIMRC)) ==# s:default_vimrc_resolved
+  let $MYVIMRC = s:default_vimrc
+endif
+
+let s:dein_state = s:dein_path . '/state_' . fnamemodify(v:progname, ':r') . '.vim'
+let s:dein_cache = s:dein_path . '/cache_' . fnamemodify(v:progname, ':r')
+let s:stale_runtime = s:dein_path . '/.cache/vimrc/.dein'
+
+" If a state file points at an empty merged runtime cache, force a rebuild.
+if filereadable(s:dein_state)
+  let s:state_runtime_line = 'let g:dein#_runtime_path = ' . string(s:stale_runtime)
+  if index(readfile(s:dein_state), s:state_runtime_line) >= 0
+        \ && !filereadable(s:stale_runtime . '/autoload/ddc.vim')
+    call delete(s:dein_state)
+    call delete(s:dein_cache)
+  endif
+endif
 
 if &runtimepath !~# '/dein.vim'
   if !isdirectory(s:dein_repo_dir)
@@ -68,6 +89,7 @@ if dein#load_state(s:dein_path)
   
   call dein#end()
   call dein#save_state()
+  call dein#recache_runtimepath()
 endif
 
 filetype plugin indent on
@@ -124,6 +146,7 @@ nnoremap K :<C-u>LspHover<CR>
 
 let g:lsp_settings = {
 \   'pylsp-all': {
+\     'cmd': [expand('~/.vim/bin/pylsp-all')],
 \     'workspace_config': {
 \       'pylsp': {
 \         'configurationSources': ['flake8'],

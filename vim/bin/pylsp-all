@@ -1,0 +1,39 @@
+#!/bin/sh
+set -eu
+
+# Start pylsp from the vim-lsp-settings venv even if its interpreter symlink is stale.
+VENV="${HOME}/.local/share/vim-lsp-settings/servers/pylsp-all/venv"
+SITE_PACKAGES=""
+PYTHON_VERSION=""
+
+for dir in "${VENV}"/lib/python3.*; do
+  if [ -d "${dir}/site-packages" ]; then
+    SITE_PACKAGES="${dir}/site-packages"
+    PYTHON_VERSION=$(basename "${dir}")
+    PYTHON_VERSION=${PYTHON_VERSION#python}
+    break
+  fi
+done
+
+if [ -z "${SITE_PACKAGES}" ] || [ -z "${PYTHON_VERSION}" ]; then
+  echo "pylsp-all wrapper could not find site-packages under ${VENV}" >&2
+  exit 1
+fi
+
+if command -v "python${PYTHON_VERSION}" >/dev/null 2>&1; then
+  PYTHON_BIN="python${PYTHON_VERSION}"
+elif command -v python3 >/dev/null 2>&1; then
+  PYTHON_BIN="python3"
+else
+  echo "pylsp-all wrapper could not find a Python interpreter" >&2
+  exit 1
+fi
+
+if ! "${PYTHON_BIN}" -c "import sys; raise SystemExit(0 if sys.version_info[:2] == tuple(map(int, '${PYTHON_VERSION}'.split('.'))) else 1)" >/dev/null 2>&1; then
+  echo "pylsp-all wrapper requires Python ${PYTHON_VERSION}" >&2
+  exit 1
+fi
+
+PATH="${VENV}/bin:${PATH}" \
+PYTHONPATH="${SITE_PACKAGES}${PYTHONPATH:+:${PYTHONPATH}}" \
+exec "${PYTHON_BIN}" -m pylsp "$@"
