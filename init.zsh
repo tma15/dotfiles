@@ -1,5 +1,7 @@
 #!/bin/zsh
 
+typeset -gr DOTFILES_DIR="${${(%):-%N}:A:h}"
+
 success() {
     printf "\r\033[2K  [ \033[00;32mOK\033[0m ] $1\n"
 }
@@ -61,23 +63,25 @@ check_os_compatibility() {
 }
 
 backup_existing() {
-    if [ -e $2 ] || [ -L $2 ]; then
-        local backup_name="$2.backup.$(date +%Y%m%d_%H%M%S)"
-        if [ -L $2 ]; then
+    local target="$2"
+
+    if [ -e "$target" ] || [ -L "$target" ]; then
+        local backup_name="$target.backup.$(date +%Y%m%d_%H%M%S)"
+        if [ -L "$target" ]; then
             # If it's a symlink, just remove it
-            rm $2
-            info "Removed existing symlink: $2"
+            rm -- "$target"
+            info "Removed existing symlink: $target"
         else
             # If it's a regular file/directory, back it up
-            mv $2 "$backup_name"
-            info "Backed up existing $2 to $backup_name"
+            mv -- "$target" "$backup_name"
+            info "Backed up existing $target to $backup_name"
         fi
     fi
 }
 
 
 setup_git_submodule() {
-    if git submodule update --init --recursive; then
+    if git -C "$DOTFILES_DIR" submodule update --init --recursive; then
         success "git submodule update --init --recursive"
     else
         error "Failed to initialize git submodules"
@@ -87,8 +91,8 @@ setup_git_submodule() {
 
 
 link_files() {
-    backup_existing $1 $2
-    ln -ns $1 $2 && success "linked $1 to $2"
+    backup_existing "$1" "$2"
+    ln -ns "$1" "$2" && success "linked $1 to $2"
 }
 
 
@@ -109,18 +113,18 @@ install_dotfiles() {
     local private_dotfiles_dir="${DOTFILES_PRIVATE_DIR:-$HOME/work/dotfiles-private}"
 
     # https://github.com/sorin-ionescu/prezto
-    link_files `pwd`/zprezto ~/.zprezto
-    link_files `pwd`/zprezto/runcoms/zlogin ~/.zlogin
-    link_files `pwd`/zprezto/runcoms/zlogout ~/.zlogout
-    link_files `pwd`/zprezto/runcoms/zprofile ~/.zprofile
-    link_files `pwd`/zprezto/runcoms/zshenv ~/.zshenv
+    link_files "$DOTFILES_DIR/zprezto" ~/.zprezto
+    link_files "$DOTFILES_DIR/zprezto/runcoms/zlogin" ~/.zlogin
+    link_files "$DOTFILES_DIR/zprezto/runcoms/zlogout" ~/.zlogout
+    link_files "$DOTFILES_DIR/zprezto/runcoms/zprofile" ~/.zprofile
+    link_files "$DOTFILES_DIR/zprezto/runcoms/zshenv" ~/.zshenv
 
-    link_files `pwd`/pyenv ~/.pyenv
-    link_files `pwd`/tmux.conf ~/.tmux.conf
-    link_files `pwd`/vimrc ~/.vimrc
-    link_files `pwd`/vim ~/.vim
-    link_files `pwd`/zshrc ~/.zshrc
-    link_files `pwd`/zpreztorc ~/.zpreztorc
+    link_files "$DOTFILES_DIR/pyenv" ~/.pyenv
+    link_files "$DOTFILES_DIR/tmux.conf" ~/.tmux.conf
+    link_files "$DOTFILES_DIR/vimrc" ~/.vimrc
+    link_files "$DOTFILES_DIR/vim" ~/.vim
+    link_files "$DOTFILES_DIR/zshrc" ~/.zshrc
+    link_files "$DOTFILES_DIR/zpreztorc" ~/.zpreztorc
     if [ -d "$private_dotfiles_dir" ]; then
         if [ -f "$private_dotfiles_dir/zshrc.local" ]; then
             link_files "$private_dotfiles_dir/zshrc.local" ~/.zshrc.local
@@ -129,7 +133,7 @@ install_dotfiles() {
         fi
     fi
     mkdir -p ~/.ssh
-    link_files `pwd`/ssh/config ~/.ssh/config
+    link_files "$DOTFILES_DIR/ssh/config" ~/.ssh/config
     if [ -d "$private_dotfiles_dir" ]; then
         if [ -f "$private_dotfiles_dir/ssh/config.local" ]; then
             link_files "$private_dotfiles_dir/ssh/config.local" ~/.ssh/config.local
@@ -138,17 +142,15 @@ install_dotfiles() {
         fi
     fi
     mkdir -p ~/.config/ghostty
-    link_files `pwd`/ghostty/config.ghostty ~/.config/ghostty/config.ghostty
-    link_files `pwd`/ghostty/config.ghostty ~/.config/ghostty/config
+    link_files "$DOTFILES_DIR/ghostty/config.ghostty" ~/.config/ghostty/config.ghostty
+    link_files "$DOTFILES_DIR/ghostty/config.ghostty" ~/.config/ghostty/config
 
     # VS Code settings (macOS specific)
     if [[ "$(uname)" == "Darwin" ]]; then
         local vscode_dir="$HOME/Library/Application Support/Code/User"
         if [ -d "$vscode_dir" ]; then
-            backup_existing ~/work/dotfiles/vscode/settings.json "$vscode_dir/settings.json"
-            backup_existing ~/work/dotfiles/vscode/keybindings.json "$vscode_dir/keybindings.json"
-            ln -s ~/work/dotfiles/vscode/settings.json "$vscode_dir/settings.json"
-            ln -s ~/work/dotfiles/vscode/keybindings.json "$vscode_dir/keybindings.json"
+            link_files "$DOTFILES_DIR/vscode/settings.json" "$vscode_dir/settings.json"
+            link_files "$DOTFILES_DIR/vscode/keybindings.json" "$vscode_dir/keybindings.json"
             success "VS Code settings linked"
         else
             warn "VS Code directory not found. Skipping VS Code settings."
