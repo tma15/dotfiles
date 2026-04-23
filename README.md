@@ -107,6 +107,7 @@ zsh init.zsh
 - GitHub Actions workflows live in `.github/workflows/`
 - Weekly workflows check submodule updates and security/dependency issues
 - Run local smoke tests with `zsh test/run.zsh`
+- Repo-scoped Codex skills live in `.agents/skills/`
 
 ## Author
 
