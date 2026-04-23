@@ -1,5 +1,27 @@
 # Changelog
 
+## [v1.1.0](https://github.com/tma15/dotfiles/compare/v1.0.0...v1.1.0) - 2026-04-23
+- update pyenv submodule to v2.6.3 by @tma15 in https://github.com/tma15/dotfiles/pull/11
+- update README.md to include installation requirements and submodule m… by @tma15 in https://github.com/tma15/dotfiles/pull/13
+- enhance init.zsh with improved dependency checks, OS compatibility, a… by @tma15 in https://github.com/tma15/dotfiles/pull/14
+- Add CI workflows for dependency checks and submodule updates by @tma15 in https://github.com/tma15/dotfiles/pull/15
+- Enhance submodule update workflow with tag fetching and validation by @tma15 in https://github.com/tma15/dotfiles/pull/16
+- Update submodules by @tma15 in https://github.com/tma15/dotfiles/pull/17
+- 🔄 Update zprezto to latest master by @github-actions[bot] in https://github.com/tma15/dotfiles/pull/18
+- Fix/readme by @tma15 in https://github.com/tma15/dotfiles/pull/20
+- 🔄 Update zprezto to latest master by @github-actions[bot] in https://github.com/tma15/dotfiles/pull/19
+- chore: enhance submodule update workflow for pyenv and zprezto by @tma15 in https://github.com/tma15/dotfiles/pull/22
+- 🔄 Update zprezto to latest master by @github-actions[bot] in https://github.com/tma15/dotfiles/pull/21
+- 🔄 Update zprezto to latest master by @github-actions[bot] in https://github.com/tma15/dotfiles/pull/23
+- 🔄 Update pyenv to v2.6.13 by @github-actions[bot] in https://github.com/tma15/dotfiles/pull/24
+- 🔄 Update pyenv to v2.6.16 by @github-actions[bot] in https://github.com/tma15/dotfiles/pull/25
+- Split private local settings from shared dotfiles by @tma15 in https://github.com/tma15/dotfiles/pull/35
+- Fix automated submodule update PR workflow by @tma15 in https://github.com/tma15/dotfiles/pull/36
+- docs: rewrite README and fix init paths by @tma15 in https://github.com/tma15/dotfiles/pull/38
+- chore: tighten cmux shell setup and add smoke tests by @tma15 in https://github.com/tma15/dotfiles/pull/39
+- Fix Vim startup cache recovery by @tma15 in https://github.com/tma15/dotfiles/pull/40
+- chore: add repo-scoped dotfiles maintainer skill by @tma15 in https://github.com/tma15/dotfiles/pull/41
+
 ## [v1.0.0](https://github.com/tma15/dotfiles/compare/v0.2.0...v1.0.0) - 2025-06-27
 - Add VScode description to README.md by @tma15 in https://github.com/tma15/dotfiles/pull/7
 - Feature/addd ci by @tma15 in https://github.com/tma15/dotfiles/pull/8
