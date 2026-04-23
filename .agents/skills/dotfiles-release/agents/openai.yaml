@@ -1,0 +1,4 @@
+interface:
+  display_name: "Dotfiles リリース"
+  short_description: "この dotfiles リポジトリの release 作業を進める"
+  default_prompt: "$dotfiles-release を使って、この dotfiles リポジトリの version 判断から release PR、tag、GitHub Release の確認まで進めて。"
