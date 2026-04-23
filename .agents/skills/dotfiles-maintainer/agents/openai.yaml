@@ -1,0 +1,4 @@
+interface:
+  display_name: "Dotfiles メンテナ"
+  short_description: "この dotfiles リポジトリを安全に保守する"
+  default_prompt: "$dotfiles-maintainer を使って、この dotfiles リポジトリを local/private overlay と install wiring を保ったまま更新して。"
