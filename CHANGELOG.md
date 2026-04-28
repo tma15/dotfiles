@@ -1,5 +1,11 @@
 # Changelog
 
+## [v1.2.0](https://github.com/tma15/dotfiles/compare/v1.1.0...v1.2.0) - 2026-04-28
+- chore: add repo-scoped dotfiles release skill by @tma15 in https://github.com/tma15/dotfiles/pull/42
+- Add cmux markdown preview helper by @tma15 in https://github.com/tma15/dotfiles/pull/46
+- 🔄 Update zprezto to latest master by @github-actions[bot] in https://github.com/tma15/dotfiles/pull/45
+- 🔄 Update pyenv to v2.6.27 by @github-actions[bot] in https://github.com/tma15/dotfiles/pull/44
+
 ## [v1.1.0](https://github.com/tma15/dotfiles/compare/v1.0.0...v1.1.0) - 2026-04-23
 - update pyenv submodule to v2.6.3 by @tma15 in https://github.com/tma15/dotfiles/pull/11
 - update README.md to include installation requirements and submodule m… by @tma15 in https://github.com/tma15/dotfiles/pull/13
