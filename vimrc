@@ -4,7 +4,9 @@ set encoding=utf-8
 set fileencodings=utf-8
 
 " 256 colors
-set t_Co=256 
+if exists('&t_Co')
+  set t_Co=256
+endif
 
 set nu
 set completeopt=menuone
@@ -13,7 +15,9 @@ filetype on
 set hlsearch
 set showmatch
 set laststatus=2
-set guioptions+=a
+if !has('nvim') && exists('&guioptions')
+  set guioptions+=a
+endif
 
 set wildmenu
 
@@ -189,7 +193,12 @@ let g:lsp_settings = {
 """""
 " ddc
 """""
-if exists('*ddc#custom#patch_global')
+let s:ddc_supported = (has('nvim-0.11.3') || has('patch-9.1.1646')) && executable('deno')
+let s:ddc_available = s:ddc_supported
+      \ && !empty(globpath(&runtimepath, 'autoload/ddc.vim'))
+      \ && !empty(globpath(&runtimepath, 'autoload/ddc/custom.vim'))
+
+if s:ddc_available
   call ddc#custom#patch_global('ui', 'pum.vim')
   call ddc#custom#patch_global('ui', 'native')
   call ddc#custom#patch_global('sources', [
@@ -240,10 +249,10 @@ let g:lightline = {
 let g:lsp_diagnostics_signs_enabled = 0
 highlight link LspWarningHighlight Error
 
-if exists('*ddc#enable')
+if s:ddc_available
   call ddc#enable()
 endif
-if exists('*pum#map#insert_relative')
+if s:ddc_supported && !empty(globpath(&runtimepath, 'autoload/pum/map.vim'))
   inoremap <Tab> <Cmd>call pum#map#insert_relative(+1)<CR>
   inoremap <S-Tab> <Cmd>call pum#map#insert_relative(-1)<CR>
 endif

@@ -1,8 +1,4 @@
 [[plugins]]
-  repo = 'petobens/poet-v'
-  on_ft = ['python']
-
-[[plugins]]
   repo = 'python-lsp/python-lsp-black'
   on_ft = ['python']
 

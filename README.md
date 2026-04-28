@@ -10,6 +10,7 @@ Managed configs:
 
 - `zsh`
 - `vim`
+- `Neovim`
 - `tmux`
 - `ssh`
 - `Ghostty`
@@ -70,6 +71,11 @@ When that overlay repository exists, `init.zsh` links:
 - Plugin lists live in `vim/dein/userconfig/plugins.toml` and
   `vim/dein/userconfig/plugins_lazy.toml`
 - Deno-backed completion plugins are supported, so `init.zsh` installs Deno
+
+### Neovim
+
+- `nvim/init.vim` reuses the shared Vim configuration from `~/.vimrc`
+- `init.zsh` links it to `~/.config/nvim/init.vim`
 
 ### SSH
 
