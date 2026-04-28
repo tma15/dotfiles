@@ -28,35 +28,45 @@
 [[plugins]]
   repo = 'vim-scripts/EnhCommentify.vim'
 
+# Neovim 0.9.x is below the minimum supported version for current denops/ddc.
 [[plugins]]
   repo = 'Shougo/ddc.vim'
+  if = "has('nvim-0.11.3') || has('patch-9.1.1646')"
 
 [[plugins]]
   repo = 'vim-denops/denops.vim'
+  if = "has('nvim-0.11.3') || has('patch-9.1.1646')"
 
 [[plugins]]
   repo = 'Shougo/pum.vim'
 
 [[plugins]]
   repo = 'Shougo/ddc-around'
+  if = "has('nvim-0.11.3') || has('patch-9.1.1646')"
 
 [[plugins]]
   repo = 'LumaKernel/ddc-file'
+  if = "has('nvim-0.11.3') || has('patch-9.1.1646')"
 
 [[plugins]]
   repo = 'shun/ddc-vim-lsp'
+  if = "has('nvim-0.11.3') || has('patch-9.1.1646')"
 
 [[plugins]]
   repo = 'Shougo/ddc-matcher_head'
+  if = "has('nvim-0.11.3') || has('patch-9.1.1646')"
 
 [[plugins]]
   repo = 'Shougo/ddc-ui-native'
+  if = "has('nvim-0.11.3') || has('patch-9.1.1646')"
 
 [[plugins]]
   repo = 'Shougo/ddc-sorter_rank'
+  if = "has('nvim-0.11.3') || has('patch-9.1.1646')"
 
 [[plugins]]
   repo = 'Shougo/ddc-converter_remove_overlap'
+  if = "has('nvim-0.11.3') || has('patch-9.1.1646')"
 
 [[plugins]]
   repo = 'rhysd/vim-healthcheck'
