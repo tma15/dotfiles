@@ -1,5 +1,11 @@
 # Changelog
 
+## [v1.3.0](https://github.com/tma15/dotfiles/compare/v1.2.0...v1.3.0) - 2026-04-28
+- Guard Vim ddc setup on unsupported versions by @tma15 in https://github.com/tma15/dotfiles/pull/47
+- Expose markdown preview skill globally by @tma15 in https://github.com/tma15/dotfiles/pull/49
+- Add Neovim entrypoint by @tma15 in https://github.com/tma15/dotfiles/pull/50
+- Install Neovim from official tarball by @tma15 in https://github.com/tma15/dotfiles/pull/51
+
 ## [v1.2.0](https://github.com/tma15/dotfiles/compare/v1.1.0...v1.2.0) - 2026-04-28
 - chore: add repo-scoped dotfiles release skill by @tma15 in https://github.com/tma15/dotfiles/pull/42
 - Add cmux markdown preview helper by @tma15 in https://github.com/tma15/dotfiles/pull/46
