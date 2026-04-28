@@ -1,0 +1,4 @@
+interface:
+  display_name: "cmux Markdown Preview"
+  short_description: "remote Markdownをcmux browser paneで表示する"
+  default_prompt: "$cmux-markdown-preview を使って、remote のMarkdownファイルをpreview serverとcmux browserで表示して。"

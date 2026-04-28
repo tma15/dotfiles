@@ -14,6 +14,7 @@ Managed configs:
 - `ssh`
 - `Ghostty`
 - `VS Code`
+- local helper scripts
 
 ## Quick Start
 
@@ -80,6 +81,13 @@ When that overlay repository exists, `init.zsh` links:
 
 - `tmux.conf` is installed by `init.zsh`
 - tmux is kept as an explicit fallback; Prezto tmux auto-start and aliases are disabled
+
+### Local Helpers
+
+- `bin/md-preview-server` serves a single Markdown file for browser preview
+- `init.zsh` links it to `~/.local/bin/md-preview-server`
+- In a remote cmux session, run the server on remote localhost and open it with
+  `cmux browser open`; see `docs/cmux.md`
 
 ### Ghostty
 

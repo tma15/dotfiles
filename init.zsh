@@ -125,6 +125,8 @@ install_dotfiles() {
     link_files "$DOTFILES_DIR/vim" ~/.vim
     link_files "$DOTFILES_DIR/zshrc" ~/.zshrc
     link_files "$DOTFILES_DIR/zpreztorc" ~/.zpreztorc
+    mkdir -p ~/.local/bin
+    link_files "$DOTFILES_DIR/bin/md-preview-server" ~/.local/bin/md-preview-server
     if [ -d "$private_dotfiles_dir" ]; then
         if [ -f "$private_dotfiles_dir/zshrc.local" ]; then
             link_files "$private_dotfiles_dir/zshrc.local" ~/.zshrc.local
