@@ -5,13 +5,14 @@ set -euo pipefail
 source "${0:A:h}/lib.zsh"
 
 plain_home="$(make_temp_dir dotfiles-zsh-plain)"
-mkdir -p "$plain_home/.zprezto"
+mkdir -p "$plain_home/.zprezto" "$plain_home/.local/bin"
 : > "$plain_home/.zprezto/init.zsh"
 
 HOME="$plain_home" ZDOTDIR="$plain_home" /bin/zsh -fc '
   source "$1/zshrc"
   [[ "${DOTFILES_IS_CMUX_RELAY:-0}" == "0" ]] || exit 1
   [[ ! -e "$ZDOTDIR/.zpreztorc" ]] || exit 1
+  [[ ":$PATH:" == *":$HOME/.local/bin:"* ]] || exit 1
 ' _ "$REPO_ROOT"
 
 relay_home="$(make_temp_dir dotfiles-zsh-relay)"
