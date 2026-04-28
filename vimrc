@@ -89,7 +89,12 @@ if dein#load_state(s:dein_path)
   
   call dein#end()
   call dein#save_state()
-  call dein#recache_runtimepath()
+
+  " Rebuild dein's generated runtime tree if the cache directory is empty.
+  if !exists('g:dein#_runtime_path')
+        \ || empty(globpath(g:dein#_runtime_path, '*', 0, 1))
+    call dein#recache_runtimepath()
+  endif
 endif
 
 filetype plugin indent on
@@ -105,7 +110,7 @@ filetype plugin indent on     " (5)
 """""""""""""""""
 " colorscheme
 """""""""""""""""
-colorscheme molokai
+silent! colorscheme molokai
 
 """""""""""""""""""""
 " ctrlp
@@ -184,32 +189,34 @@ let g:lsp_settings = {
 """""
 " ddc
 """""
-call ddc#custom#patch_global('ui', 'pum.vim')
-call ddc#custom#patch_global('ui', 'native')
-call ddc#custom#patch_global('sources', [
- \ 'around',
- \ 'vim-lsp',
- \ 'file',
- \ 'neosnippet'
- \ ])
-call ddc#custom#patch_global('sourceOptions', {
- \ '_': {
- \   'matchers': ['matcher_head'],
- \   'sorters': ['sorter_rank'],
- \   'converters': ['converter_remove_overlap'],
- \ },
- \ 'around': {'mark': 'Around'},
- \ 'neosnippet': {'mark': 'Snippet'},
- \ 'vim-lsp': {
- \   'mark': 'LSP', 
- \   'matchers': ['matcher_head'],
- \   'forceCompletionPattern': '\.|:|->|"\w+/*'
- \ },
- \ 'file': {
- \   'mark': 'file',
- \   'isVolatile': v:true, 
- \   'forceCompletionPattern': '\S/\S*'
- \ }})
+if exists('*ddc#custom#patch_global')
+  call ddc#custom#patch_global('ui', 'pum.vim')
+  call ddc#custom#patch_global('ui', 'native')
+  call ddc#custom#patch_global('sources', [
+   \ 'around',
+   \ 'vim-lsp',
+   \ 'file',
+   \ 'neosnippet'
+   \ ])
+  call ddc#custom#patch_global('sourceOptions', {
+   \ '_': {
+   \   'matchers': ['matcher_head'],
+   \   'sorters': ['sorter_rank'],
+   \   'converters': ['converter_remove_overlap'],
+   \ },
+   \ 'around': {'mark': 'Around'},
+   \ 'neosnippet': {'mark': 'Snippet'},
+   \ 'vim-lsp': {
+   \   'mark': 'LSP',
+   \   'matchers': ['matcher_head'],
+   \   'forceCompletionPattern': '\.|:|->|"\w+/*'
+   \ },
+   \ 'file': {
+   \   'mark': 'file',
+   \   'isVolatile': v:true,
+   \   'forceCompletionPattern': '\S/\S*'
+   \ }})
+endif
 
 
 let g:lightline = {
@@ -233,9 +240,13 @@ let g:lightline = {
 let g:lsp_diagnostics_signs_enabled = 0
 highlight link LspWarningHighlight Error
 
-call ddc#enable()
-inoremap <Tab> <Cmd>call pum#map#insert_relative(+1)<CR>
-inoremap <S-Tab> <Cmd>call pum#map#insert_relative(-1)<CR>
+if exists('*ddc#enable')
+  call ddc#enable()
+endif
+if exists('*pum#map#insert_relative')
+  inoremap <Tab> <Cmd>call pum#map#insert_relative(+1)<CR>
+  inoremap <S-Tab> <Cmd>call pum#map#insert_relative(-1)<CR>
+endif
 
 
 """""""""""""""""""""
@@ -299,10 +310,15 @@ let g:rbpt_colorpairs = [
 
 let g:rbpt_max = 16
 let g:rbpt_loadcmd_toggle = 0
-au VimEnter * RainbowParenthesesToggle
-au Syntax * RainbowParenthesesLoadRound
-au Syntax * RainbowParenthesesLoadSquare
-au Syntax * RainbowParenthesesLoadBraces
+augroup RainbowParentheses
+  autocmd!
+  autocmd VimEnter * if exists(':RainbowParenthesesToggle') | silent! RainbowParenthesesToggle | endif
+  autocmd Syntax * if exists(':RainbowParenthesesLoadRound') |
+        \ silent! RainbowParenthesesLoadRound |
+        \ silent! RainbowParenthesesLoadSquare |
+        \ silent! RainbowParenthesesLoadBraces |
+        \ endif
+augroup END
 
 
 augroup LspAutoFormatting

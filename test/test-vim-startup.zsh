@@ -38,6 +38,7 @@ ln -s "$PYLSP_ALL_SOURCE" "$tmp_home/.local/share/vim-lsp-settings/servers/pylsp
 
 typeset -r log_path="$tmp_home/vim.log"
 typeset -r messages_path="$tmp_home/messages.txt"
+typeset -r ddc_support_path="$tmp_home/ddc-support.txt"
 
 typeset -a vim_args=(
   -Nu NONE
@@ -49,6 +50,7 @@ typeset -a vim_args=(
   --cmd 'set nomore'
   "+source $tmp_home/.vimrc"
   '+call dein#source()'
+  "+call writefile([string(has('nvim-0.11.3') || has('patch-9.1.1646'))], '$ddc_support_path')"
   "+redir => g:msgs | silent messages | redir END | call writefile(split(g:msgs, \"\\n\"), '$messages_path')"
   '+qall!'
 )
@@ -64,7 +66,12 @@ fi
 HOME="$tmp_home" "$REPO_ROOT/vim/bin/pylsp-all" --version >/dev/null 2>&1 \
   || fail "pylsp-all wrapper did not start from the temp HOME"
 
-assert_exists "$tmp_home/.vim/dein/.cache/.vimrc/.dein/autoload/ddc.vim"
+ddc_supported="$(<"$ddc_support_path")"
+if [[ "$ddc_supported" == "1" ]]; then
+  assert_exists "$tmp_home/.vim/dein/.cache/.vimrc/.dein/autoload/ddc.vim"
+else
+  assert_not_exists "$tmp_home/.vim/dein/.cache/.vimrc/.dein/autoload/ddc.vim"
+fi
 assert_exists "$tmp_home/.vim/dein/.cache/.vimrc/.dein/autoload/lsp.vim"
 assert_exists "$tmp_home/.vim/dein/.cache/.vimrc/.dein/colors/molokai.vim"
 
