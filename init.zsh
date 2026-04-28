@@ -123,6 +123,8 @@ install_dotfiles() {
     link_files "$DOTFILES_DIR/tmux.conf" ~/.tmux.conf
     link_files "$DOTFILES_DIR/vimrc" ~/.vimrc
     link_files "$DOTFILES_DIR/vim" ~/.vim
+    mkdir -p ~/.config/nvim
+    link_files "$DOTFILES_DIR/nvim/init.vim" ~/.config/nvim/init.vim
     link_files "$DOTFILES_DIR/zshrc" ~/.zshrc
     link_files "$DOTFILES_DIR/zpreztorc" ~/.zpreztorc
     mkdir -p ~/.local/bin

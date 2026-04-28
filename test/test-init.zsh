@@ -10,12 +10,13 @@ source "${0:A:h}/lib.zsh"
 tmp_home="$(make_temp_dir dotfiles-init-home)"
 private_dir="$(make_temp_dir dotfiles-private)"
 
-mkdir -p "$tmp_home/.deno/bin" "$tmp_home/.ssh" "$tmp_home/.config/ghostty" "$private_dir/ssh"
+mkdir -p "$tmp_home/.deno/bin" "$tmp_home/.ssh" "$tmp_home/.config/ghostty" "$tmp_home/.config/nvim" "$private_dir/ssh"
 print -r -- '#!/bin/sh' > "$tmp_home/.deno/bin/deno"
 print -r -- 'exit 0' >> "$tmp_home/.deno/bin/deno"
 chmod +x "$tmp_home/.deno/bin/deno"
 
 print -r -- 'legacy zshrc' > "$tmp_home/.zshrc"
+print -r -- 'legacy nvim init' > "$tmp_home/.config/nvim/init.vim"
 print -r -- 'legacy ssh config' > "$tmp_home/.ssh/config"
 print -r -- 'export DOTFILES_PRIVATE_TEST=1' > "$private_dir/zshrc.local"
 print -r -- 'Host private-host' > "$private_dir/ssh/config.local"
@@ -41,6 +42,7 @@ assert_symlink_target "$tmp_home/.pyenv" "$REPO_ROOT/pyenv"
 assert_symlink_target "$tmp_home/.zshrc" "$REPO_ROOT/zshrc"
 assert_symlink_target "$tmp_home/.zpreztorc" "$REPO_ROOT/zpreztorc"
 assert_symlink_target "$tmp_home/.vimrc" "$REPO_ROOT/vimrc"
+assert_symlink_target "$tmp_home/.config/nvim/init.vim" "$REPO_ROOT/nvim/init.vim"
 assert_symlink_target "$tmp_home/.tmux.conf" "$REPO_ROOT/tmux.conf"
 assert_symlink_target "$tmp_home/.local/bin/md-preview-server" "$REPO_ROOT/bin/md-preview-server"
 assert_symlink_target "$tmp_home/.codex/skills/cmux-markdown-preview" "$REPO_ROOT/.agents/skills/cmux-markdown-preview"
@@ -51,10 +53,13 @@ assert_symlink_target "$tmp_home/.zshrc.local" "$private_dir/zshrc.local"
 assert_symlink_target "$tmp_home/.ssh/config.local" "$private_dir/ssh/config.local"
 
 zshrc_backups=("$tmp_home"/.zshrc.backup.*(N))
+nvim_init_backups=("$tmp_home"/.config/nvim/init.vim.backup.*(N))
 ssh_config_backups=("$tmp_home"/.ssh/config.backup.*(N))
 assert_eq "${#zshrc_backups[@]}" "1" "expected one .zshrc backup after the first install"
+assert_eq "${#nvim_init_backups[@]}" "1" "expected one Neovim init backup after the first install"
 assert_eq "${#ssh_config_backups[@]}" "1" "expected one SSH config backup after the first install"
 assert_contains "$(cat "$zshrc_backups[1]")" "legacy zshrc"
+assert_contains "$(cat "$nvim_init_backups[1]")" "legacy nvim init"
 assert_contains "$(cat "$ssh_config_backups[1]")" "legacy ssh config"
 
 if [[ "$(uname)" == "Darwin" ]]; then
@@ -78,8 +83,10 @@ fi
 )
 
 zshrc_backups=("$tmp_home"/.zshrc.backup.*(N))
+nvim_init_backups=("$tmp_home"/.config/nvim/init.vim.backup.*(N))
 ssh_config_backups=("$tmp_home"/.ssh/config.backup.*(N))
 assert_eq "${#zshrc_backups[@]}" "1" "expected .zshrc backups to stay stable across repeated installs"
+assert_eq "${#nvim_init_backups[@]}" "1" "expected Neovim init backups to stay stable across repeated installs"
 assert_eq "${#ssh_config_backups[@]}" "1" "expected SSH config backups to stay stable across repeated installs"
 
 if [[ "$(uname)" == "Darwin" ]]; then
