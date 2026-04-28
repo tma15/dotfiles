@@ -127,6 +127,8 @@ install_dotfiles() {
     link_files "$DOTFILES_DIR/zpreztorc" ~/.zpreztorc
     mkdir -p ~/.local/bin
     link_files "$DOTFILES_DIR/bin/md-preview-server" ~/.local/bin/md-preview-server
+    mkdir -p ~/.codex/skills
+    link_files "$DOTFILES_DIR/.agents/skills/cmux-markdown-preview" ~/.codex/skills/cmux-markdown-preview
     if [ -d "$private_dotfiles_dir" ]; then
         if [ -f "$private_dotfiles_dir/zshrc.local" ]; then
             link_files "$private_dotfiles_dir/zshrc.local" ~/.zshrc.local
