@@ -10,10 +10,19 @@ source "${0:A:h}/lib.zsh"
 tmp_home="$(make_temp_dir dotfiles-init-home)"
 private_dir="$(make_temp_dir dotfiles-private)"
 
-mkdir -p "$tmp_home/.deno/bin" "$tmp_home/.ssh" "$tmp_home/.config/ghostty" "$tmp_home/.config/nvim" "$private_dir/ssh"
+mkdir -p \
+  "$tmp_home/.deno/bin" \
+  "$tmp_home/.local/bin" \
+  "$tmp_home/.ssh" \
+  "$tmp_home/.config/ghostty" \
+  "$tmp_home/.config/nvim" \
+  "$private_dir/ssh"
 print -r -- '#!/bin/sh' > "$tmp_home/.deno/bin/deno"
 print -r -- 'exit 0' >> "$tmp_home/.deno/bin/deno"
 chmod +x "$tmp_home/.deno/bin/deno"
+print -r -- '#!/bin/sh' > "$tmp_home/.local/bin/nvim"
+print -r -- 'printf "%s\n" "NVIM v0.11.3"' >> "$tmp_home/.local/bin/nvim"
+chmod +x "$tmp_home/.local/bin/nvim"
 
 print -r -- 'legacy zshrc' > "$tmp_home/.zshrc"
 print -r -- 'legacy nvim init' > "$tmp_home/.config/nvim/init.vim"

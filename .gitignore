@@ -1,4 +1,5 @@
 .*.swp
+nvim.log
 ssh/config.local
 zshrc.local
 vim/dein/repos

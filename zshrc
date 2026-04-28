@@ -8,6 +8,8 @@ fi
 typeset -g DOTFILES_ZSHRC_DIR="${${(%):-%N}:A:h}"
 typeset -gi DOTFILES_IS_CMUX_RELAY=0
 
+export PATH="$HOME/.local/bin:$PATH"
+
 export PYENV_ROOT="$HOME/.pyenv"
 [[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
 if (( $+commands[pyenv] )); then

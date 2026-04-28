@@ -25,6 +25,7 @@ Managed configs:
 - `git`
 - `curl`
 - `zsh`
+- `tar` on Linux when Neovim needs to be installed
 
 ### Install
 
@@ -35,8 +36,12 @@ zsh init.zsh
 ```
 
 `init.zsh` initializes submodules, backs up existing files when needed, creates
-symlinks, and installs Deno if `$HOME/.deno/bin/deno` does not exist. Existing
-files are backed up as `*.backup.<timestamp>`.
+symlinks, installs Neovim on supported Linux systems when it is missing or too
+old, and installs Deno if `$HOME/.deno/bin/deno` does not exist. Existing files
+are backed up as `*.backup.<timestamp>`.
+
+Set `DOTFILES_SKIP_NVIM_INSTALL=1` before running `init.zsh` to manage Neovim
+outside this bootstrap.
 
 ## Local Overrides
 
@@ -61,7 +66,8 @@ When that overlay repository exists, `init.zsh` links:
 
 - `zprezto` is included as a git submodule
 - Main shell settings live in `zpreztorc`
-- `zshrc` sets up `pyenv`, Deno, Prezto, and local overrides
+- `zshrc` puts `~/.local/bin` on `PATH` and sets up `pyenv`, Deno,
+  Prezto, and local overrides
 - `zshrc` loads `~/.zshrc.local` first, then a repo-local `zshrc.local` if present
 - For cmux relay behavior and SSH alias setup, see `docs/cmux.md`
 
@@ -76,6 +82,9 @@ When that overlay repository exists, `init.zsh` links:
 
 - `nvim/init.vim` reuses the shared Vim configuration from `~/.vimrc`
 - `init.zsh` links it to `~/.config/nvim/init.vim`
+- On Linux x86_64/arm64, `init.zsh` installs the official Neovim tarball to
+  `~/.local/opt/dotfiles/` and links `~/.local/bin/nvim` when no Neovim at
+  least `0.11.3` is available
 
 ### SSH
 
