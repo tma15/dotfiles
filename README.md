@@ -86,6 +86,8 @@ When that overlay repository exists, `init.zsh` links:
 
 - `bin/md-preview-server` serves a single Markdown file for browser preview
 - `init.zsh` links it to `~/.local/bin/md-preview-server`
+- `init.zsh` also links the `cmux-markdown-preview` Codex skill to
+  `~/.codex/skills/cmux-markdown-preview` so it is available outside this repo
 - In a remote cmux session, run the server on remote localhost and open it with
   `cmux browser open`; see `docs/cmux.md`
 
