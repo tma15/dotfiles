@@ -60,5 +60,9 @@ uv run --with markdown-it-py ~/.local/bin/md-preview-server docs/example.md --ho
 ## tmux Fallback
 
 - `tmux.conf` stays in the repository for direct tmux use
+- `tmux.conf` allows terminal passthrough so cmux notification escape sequences
+  can reach the outer terminal from inside tmux
+- `tmux.conf` uses `tmux-256color` with RGB support so terminal applications,
+  including Codex, keep color highlighting inside tmux
 - Prezto tmux auto-start is disabled
 - Prezto tmux aliases are disabled so `cmux` stays the default entry point
