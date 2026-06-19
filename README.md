@@ -95,6 +95,7 @@ When that overlay repository exists, `init.zsh` links:
 ### tmux
 
 - `tmux.conf` is installed by `init.zsh`
+- `tmux.conf` enables mouse support for wheel scrollback and pane selection
 - `tmux.conf` enables terminal passthrough for cmux notifications from inside tmux
 - `tmux.conf` uses `tmux-256color` with RGB support for color highlighting
 - tmux is kept as an explicit fallback; Prezto tmux auto-start and aliases are disabled
