@@ -63,7 +63,10 @@ uv run --with markdown-it-py ~/.local/bin/md-preview-server docs/example.md --ho
 - `tmux.conf` enables mouse support for wheel scrollback and pane selection
 - `tmux.conf` allows terminal passthrough so cmux notification escape sequences
   can reach the outer terminal from inside tmux
-- `tmux.conf` uses `tmux-256color` with RGB support so terminal applications,
-  including Codex, keep color highlighting inside tmux
+- `tmux.conf` uses `tmux-256color` with RGB support for Ghostty and other
+  configured clients so terminal applications, including Codex, keep color
+  highlighting inside tmux
+- `tmux.conf` clears Codex-inherited `NO_COLOR` and `CODEX_CI` from tmux's
+  environment so later panes do not lose interactive color highlighting
 - Prezto tmux auto-start is disabled
 - Prezto tmux aliases are disabled so `cmux` stays the default entry point
