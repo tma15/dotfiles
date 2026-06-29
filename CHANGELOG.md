@@ -1,5 +1,17 @@
 # Changelog
 
+## [v1.4.0](https://github.com/tma15/dotfiles/compare/v1.3.0...v1.4.0) - 2026-06-29
+
+- 🔄 Update pyenv to v2.6.28 by @github-actions[bot] in https://github.com/tma15/dotfiles/pull/52
+- 🔄 Update pyenv to v2.6.31 by @github-actions[bot] in https://github.com/tma15/dotfiles/pull/54
+- 🔄 Update pyenv to v2.6.32 by @github-actions[bot] in https://github.com/tma15/dotfiles/pull/55
+- 🔄 Update pyenv to v2.7.1 by @github-actions[bot] in https://github.com/tma15/dotfiles/pull/56
+- 🔄 Update pyenv to v2.7.2 by @github-actions[bot] in https://github.com/tma15/dotfiles/pull/57
+- Enable tmux passthrough and RGB colors by @tma15 in https://github.com/tma15/dotfiles/pull/58
+- Enable tmux mouse support by @tma15 in https://github.com/tma15/dotfiles/pull/59
+- Fix Codex colors in tmux panes by @tma15 in https://github.com/tma15/dotfiles/pull/60
+- 🔄 Update pyenv to v2.7.3 by @github-actions[bot] in https://github.com/tma15/dotfiles/pull/61
+
 ## [v1.3.0](https://github.com/tma15/dotfiles/compare/v1.2.0...v1.3.0) - 2026-04-28
 - Guard Vim ddc setup on unsupported versions by @tma15 in https://github.com/tma15/dotfiles/pull/47
 - Expose markdown preview skill globally by @tma15 in https://github.com/tma15/dotfiles/pull/49
