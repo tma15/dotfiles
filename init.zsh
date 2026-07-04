@@ -331,6 +331,8 @@ install_dotfiles() {
     mkdir -p ~/.config/ghostty
     link_files "$DOTFILES_DIR/ghostty/config.ghostty" ~/.config/ghostty/config.ghostty
     link_files "$DOTFILES_DIR/ghostty/config.ghostty" ~/.config/ghostty/config
+    mkdir -p ~/.config/herdr
+    link_files "$DOTFILES_DIR/herdr/config.toml" ~/.config/herdr/config.toml
 
     # VS Code settings (macOS specific)
     if [[ "$(uname)" == "Darwin" ]]; then

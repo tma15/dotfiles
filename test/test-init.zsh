@@ -15,6 +15,7 @@ mkdir -p \
   "$tmp_home/.local/bin" \
   "$tmp_home/.ssh" \
   "$tmp_home/.config/ghostty" \
+  "$tmp_home/.config/herdr" \
   "$tmp_home/.config/nvim" \
   "$private_dir/ssh"
 print -r -- '#!/bin/sh' > "$tmp_home/.deno/bin/deno"
@@ -58,6 +59,7 @@ assert_symlink_target "$tmp_home/.codex/skills/cmux-markdown-preview" "$REPO_ROO
 assert_symlink_target "$tmp_home/.ssh/config" "$REPO_ROOT/ssh/config"
 assert_symlink_target "$tmp_home/.config/ghostty/config.ghostty" "$REPO_ROOT/ghostty/config.ghostty"
 assert_symlink_target "$tmp_home/.config/ghostty/config" "$REPO_ROOT/ghostty/config.ghostty"
+assert_symlink_target "$tmp_home/.config/herdr/config.toml" "$REPO_ROOT/herdr/config.toml"
 assert_symlink_target "$tmp_home/.zshrc.local" "$private_dir/zshrc.local"
 assert_symlink_target "$tmp_home/.ssh/config.local" "$private_dir/ssh/config.local"
 

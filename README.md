@@ -14,6 +14,7 @@ Managed configs:
 - `tmux`
 - `ssh`
 - `Ghostty`
+- `Herdr`
 - `VS Code`
 - local helper scripts
 
@@ -116,6 +117,14 @@ When that overlay repository exists, `init.zsh` links:
 
 - `ghostty/config.ghostty` is linked to both
   `~/.config/ghostty/config.ghostty` and `~/.config/ghostty/config`
+
+### Herdr
+
+- `herdr/config.toml` is linked to `~/.config/herdr/config.toml`
+- Herdr uses `ctrl+t` as the prefix key, matching the tmux prefix used in this setup
+- Agent sidebar sorting prioritizes panes that need attention
+- Sound and pane history replay are disabled by default to avoid noisy shared sessions
+  and persistent terminal output containing secrets
 
 ### VS Code
 
