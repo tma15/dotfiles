@@ -26,6 +26,8 @@ Managed configs:
 - `curl`
 - `zsh`
 - `tar` on Linux when Neovim needs to be installed
+- `UDEV Gothic NF` is recommended for terminal prompts that use
+  Powerline/Nerd Font glyphs
 
 ### Install
 
@@ -113,6 +115,10 @@ When that overlay repository exists, `init.zsh` links:
 
 - `ghostty/config.ghostty` is linked to both
   `~/.config/ghostty/config.ghostty` and `~/.config/ghostty/config`
+- Ghostty is configured to use `UDEV Gothic 35NF`; install it on macOS with
+  `brew install --cask font-udev-gothic-nf`
+- For iTerm2, set `UDEV Gothic 35NF` manually from
+  Settings > Profiles > Text > Font
 
 ### VS Code
 
