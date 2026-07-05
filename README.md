@@ -131,6 +131,7 @@ When that overlay repository exists, `init.zsh` links:
 - Agent sidebar sorting prioritizes panes that need attention
 - Sound and pane history replay are disabled by default to avoid noisy shared sessions
   and persistent terminal output containing secrets
+- For remote notification checks, see `docs/herdr.md`
 
 ### VS Code
 
