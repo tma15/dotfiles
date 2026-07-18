@@ -128,6 +128,7 @@ When that overlay repository exists, `init.zsh` links:
 
 - `herdr/config.toml` is linked to `~/.config/herdr/config.toml`
 - Herdr uses `ctrl+t` as the prefix key, matching the tmux prefix used in this setup
+- `ctrl+t f` opens the `herdr-file-viewer` plugin in a split; `ctrl+t F` opens it in a tab
 - Agent sidebar sorting prioritizes panes that need attention
 - Sound and pane history replay are disabled by default to avoid noisy shared sessions
   and persistent terminal output containing secrets

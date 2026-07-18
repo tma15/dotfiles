@@ -3,6 +3,23 @@
 This repository manages shared Herdr defaults in `herdr/config.toml`.
 Machine-specific Herdr behavior should stay in local config where possible.
 
+## File Viewer
+
+This setup binds the `herdr-file-viewer` plugin to `ctrl+t f` for a split pane
+and `ctrl+t F` for a new tab. Install the plugin after linking the config:
+
+```sh
+herdr plugin install smarzban/herdr-file-viewer
+herdr server reload-config
+```
+
+For styled Markdown, diffs, and syntax highlighting, install its optional
+renderers on macOS:
+
+```sh
+brew install glow git-delta bat
+```
+
 ## Remote Notifications
 
 Herdr remote sessions use the Herdr server and agent integrations on the remote
