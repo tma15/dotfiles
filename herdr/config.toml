@@ -51,6 +51,10 @@ switch_ascii_input_source_in_prefix = true
 
 [keys]
 prefix = "ctrl+t"
+previous_workspace = "alt+left"
+next_workspace = "alt+right"
+previous_tab = "alt+up"
+next_tab = "alt+down"
 
 [[keys.command]]
 key = "prefix+f"
