@@ -85,6 +85,13 @@ When that overlay repository exists, `init.zsh` links:
 - On Linux x86_64/arm64, `init.zsh` installs the official Neovim tarball to
   `~/.local/opt/dotfiles/` and links `~/.local/bin/nvim` when no Neovim at
   least `0.11.3` is available
+- `richwomanbtc/overleaf.nvim` is installed for Neovim 0.10+; its Node bridge
+  is built by dein, so it requires Node.js 18+
+- To mirror an Overleaf project for Codex CLI, create the untracked
+  `~/.config/nvim/overleaf.local.lua` with (for example)
+  `return { sync_dir = vim.fn.expand('~/Documents/overleaf') }`. Put the
+  `OVERLEAF_COOKIE` only in the project-local `.env` file supported by the
+  plugin; never add it to this repository or the local Lua file.
 
 ### SSH
 

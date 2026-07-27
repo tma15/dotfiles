@@ -107,6 +107,24 @@ if dein#check_install()
   call dein#install()
 endif
 
+" overleaf.nvim is Neovim-only.  Keep account-specific settings, especially
+" session cookies, out of this tracked configuration.
+if has('nvim-0.10')
+  lua << EOF
+local options = {}
+local local_config = vim.fn.stdpath('config') .. '/overleaf.local.lua'
+local loaded, result = pcall(dofile, local_config)
+if loaded and type(result) == 'table' then
+  options = result
+end
+
+local available, overleaf = pcall(require, 'overleaf')
+if available then
+  overleaf.setup(options)
+end
+EOF
+endif
+
 syntax enable
 filetype plugin indent on     " (5)
 
