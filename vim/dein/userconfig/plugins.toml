@@ -81,6 +81,11 @@
   repo = 'tpope/vim-commentary'
 
 [[plugins]]
+  repo = 'richwomanbtc/overleaf.nvim'
+  if = "has('nvim-0.10')"
+  build = 'cd node && npm install'
+
+[[plugins]]
 repo = 'halkn/lightline-lsp'
 
 [[plugins]]
