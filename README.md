@@ -139,7 +139,9 @@ When that overlay repository exists, `init.zsh` links:
 - Agent sidebar sorting prioritizes panes that need attention
 - Sound and pane history replay are disabled by default to avoid noisy shared sessions
   and persistent terminal output containing secrets
-- For remote notification checks, see `docs/herdr.md`
+- To view images in a pane, install `chafa` (`brew install chafa` on macOS), then
+  run `chafa -f kitty /path/to/image.png`
+- For image sizing, remote images, and notification checks, see [Herdr Notes](docs/herdr.md)
 
 ### VS Code
 
