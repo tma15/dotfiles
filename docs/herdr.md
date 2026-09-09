@@ -3,6 +3,19 @@
 This repository manages shared Herdr defaults in `herdr/config.toml`.
 Machine-specific Herdr behavior should stay in local config where possible.
 
+## Pane Display
+
+The shared config uses Herdr 0.9.0's `ui.pane_borders = "always"` with
+`ui.pane_outer_borders = true` to frame single panes as well as splits.
+Agent labels on pane borders remain enabled. Kitty graphics are enabled
+through `terminal.kitty_graphics = true` for image rendering in compatible
+outer terminals. An image viewer must emit the Kitty graphics protocol.
+Changing this setting requires restarting the affected server and reattaching
+the client; config reload alone does not apply it.
+
+After editing these display settings, use the UI's `reload config` action
+to reload the local client's presentation settings, including for SSH machines.
+
 ## File Viewer
 
 This setup binds the `herdr-file-viewer` plugin to `ctrl+t f` for a split pane
