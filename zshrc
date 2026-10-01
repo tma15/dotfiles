@@ -8,6 +8,9 @@ fi
 typeset -g DOTFILES_ZSHRC_DIR="${${(%):-%N}:A:h}"
 typeset -gi DOTFILES_IS_CMUX_RELAY=0
 
+# Keep interactive panes colored when launched from a Codex-started server.
+unset NO_COLOR CODEX_CI
+
 export PATH="$HOME/.local/bin:$PATH"
 
 export PYENV_ROOT="$HOME/.pyenv"
