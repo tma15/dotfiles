@@ -72,6 +72,8 @@ When that overlay repository exists, `init.zsh` links:
 - `zshrc` puts `~/.local/bin` on `PATH` and sets up `pyenv`, Deno,
   Prezto, and local overrides
 - `zshrc` loads `~/.zshrc.local` first, then a repo-local `zshrc.local` if present
+- `zshrc` clears inherited `NO_COLOR` and `CODEX_CI` so interactive commands
+  such as Codex and tig keep their normal colors in Herdr panes
 - For cmux relay behavior and SSH alias setup, see `docs/cmux.md`
 
 ### Vim

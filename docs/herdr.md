@@ -70,6 +70,11 @@ brew install glow git-delta bat
 
 ## Remote Notifications
 
+The shared config enables agent notification sounds with
+`ui.sound.enabled = true`. Sounds play through the local Herdr client.
+After changing this setting, use the UI's `reload config` action as well as
+reloading the affected server.
+
 Herdr remote sessions use the Herdr server and agent integrations on the remote
 host where the agent runs. If agent completion sounds do not play after opening
 a remote session, check the remote host rather than the local client first.
